@@ -1,8 +1,63 @@
+// import { ReadStream } from 'fs'
+// import { ZodType } from 'zod'
+// import { Openai } from './internal/openai'
+
+// export type OpenAiGenerateTextOptions = {
+//   prompt: string
+//   attachmentUrls?: string[]
+//   history?: string[]
+//   context?: string
+// }
+
+// class Service {
+//   private openai = new Openai()
+
+//   async generateText(options: OpenAiGenerateTextOptions): Promise<string> {
+//     return this.openai.generateText(options)
+//   }
+
+//   async generateJson<SchemaType extends ZodType>(
+//     instruction: string,
+//     content: string,
+//     schema: SchemaType,
+//     attachmentUrls?: string[],
+//   ) {
+//     return this.openai.generateJson<SchemaType>(
+//       instruction,
+//       content,
+//       schema,
+//       attachmentUrls,
+//     )
+//   }
+
+//   async generateImage(prompt: string): Promise<string> {
+//     return this.openai.generateImage(prompt)
+//   }
+
+//   async fromAudioToText(readStream: ReadStream): Promise<string> {
+//     return this.openai.fromAudioToText(readStream)
+//   }
+
+//   async fromTextToAudio(text: string): Promise<Buffer> {
+//     return this.openai.fromTextToAudio(text)
+//   }
+
+//   isActive(): boolean {
+//     return this.openai.isActive()
+//   }
+// }
+
+// class Singleton {
+//   static service = new Service()
+// }
+
+// export const OpenaiService = Singleton.service
+
 import { ReadStream } from 'fs'
 import { ZodType } from 'zod'
-import { Openai } from './internal/openai'
+import { Cloudflare } from '../cloudflare/internal/cloudflare'
 
-export type OpenAiGenerateTextOptions = {
+export type AiGenerateTextOptions = {
   prompt: string
   attachmentUrls?: string[]
   history?: string[]
@@ -10,40 +65,34 @@ export type OpenAiGenerateTextOptions = {
 }
 
 class Service {
-  private openai = new Openai()
+  private ai = new Cloudflare()
 
-  async generateText(options: OpenAiGenerateTextOptions): Promise<string> {
-    return this.openai.generateText(options)
+  async generateText(options: AiGenerateTextOptions): Promise<string> {
+    return this.ai.generateText(options)
   }
 
   async generateJson<SchemaType extends ZodType>(
     instruction: string,
     content: string,
     schema: SchemaType,
-    attachmentUrls?: string[],
   ) {
-    return this.openai.generateJson<SchemaType>(
-      instruction,
-      content,
-      schema,
-      attachmentUrls,
-    )
+    return this.ai.generateJson<SchemaType>(instruction, content, schema)
   }
 
   async generateImage(prompt: string): Promise<string> {
-    return this.openai.generateImage(prompt)
+    return this.ai.generateImage(prompt)
   }
 
   async fromAudioToText(readStream: ReadStream): Promise<string> {
-    return this.openai.fromAudioToText(readStream)
+    return this.ai.fromAudioToText(readStream)
   }
 
   async fromTextToAudio(text: string): Promise<Buffer> {
-    return this.openai.fromTextToAudio(text)
+    return this.ai.fromTextToAudio(text)
   }
 
   isActive(): boolean {
-    return this.openai.isActive()
+    return this.ai.isActive()
   }
 }
 
@@ -51,4 +100,4 @@ class Singleton {
   static service = new Service()
 }
 
-export const OpenaiService = Singleton.service
+export const AiService = Singleton.service

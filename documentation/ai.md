@@ -1,6 +1,6 @@
 # AI tRPC Api
 
-The codebase already includes a complete AI library router that you can query from the front-end to generate text from a prompt, generate text from a picture, generate pictures from a prompt, generate structured output (JSON), convert audio to text or text to audio.
+The codebase includes a complete AI library router that uses Cloudflare Workers AI to generate text from prompts, generate structured output (JSON), and generate images from prompts.
 
 ## Generate text from prompt
 

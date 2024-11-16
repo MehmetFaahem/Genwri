@@ -7,14 +7,13 @@ import { LandingHero } from '@/designSystem/landing/LandingHero'
 import { LandingHowItWorks } from '@/designSystem/landing/LandingHowItWorks'
 import { LandingPainPoints } from '@/designSystem/landing/LandingPainPoints'
 import { LandingPricing } from '@/designSystem/landing/LandingPricing'
-import { LandingSocialProof } from '@/designSystem/landing/LandingSocialProof'
 import { LandingSocialRating } from '@/designSystem/landing/LandingSocialRating'
 import { LandingTestimonials } from '@/designSystem/landing/LandingTestimonials'
 import {
+  DollarOutlined,
   EditOutlined,
   PictureOutlined,
   RocketOutlined,
-  DollarOutlined,
   SearchOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons'
@@ -221,7 +220,7 @@ export default function LandingPage() {
           />
         }
       />
-      <LandingSocialProof logos={logos} title={`Featured on`} />
+      {/* <LandingSocialProof logos={logos} title={`Featured on`} /> */}
       <LandingPainPoints
         title={`47% of businesses struggle with content creation, costing them $5000+ annually in outsourcing fees`}
         painPoints={painPoints}

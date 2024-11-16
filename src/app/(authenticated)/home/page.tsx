@@ -1,20 +1,17 @@
 'use client'
 
-import { Typography, Card, Row, Col, Button } from 'antd'
-import {
-  PictureOutlined,
-  FileTextOutlined,
-  HistoryOutlined,
-  RocketOutlined,
-} from '@ant-design/icons'
-const { Title, Text } = Typography
 import { useUserContext } from '@/core/context'
-import { useRouter, useParams } from 'next/navigation'
-import { useUploadPublic } from '@/core/hooks/upload'
-import { useSnackbar } from 'notistack'
-import dayjs from 'dayjs'
 import { Api } from '@/core/trpc'
 import { PageLayout } from '@/designSystem'
+import {
+  FileTextOutlined,
+  HistoryOutlined,
+  PictureOutlined,
+} from '@ant-design/icons'
+import { Card, Col, Divider, Row, Typography } from 'antd'
+import { useRouter } from 'next/navigation'
+import { useSnackbar } from 'notistack'
+const { Title, Text } = Typography
 
 export default function HomePage() {
   const router = useRouter()
@@ -31,7 +28,7 @@ export default function HomePage() {
   const { data: recentArticles } = Api.article.findMany.useQuery({
     where: { userId: user?.id },
     orderBy: { createdAt: 'desc' },
-    take: 3,
+    take: 12,
   })
 
   // Fetch quick-start templates
@@ -89,13 +86,21 @@ export default function HomePage() {
       </Row>
 
       {/* Recent Content */}
-      <div style={{ marginTop: 48 }}>
+      <div style={{ marginTop: 48, marginBottom: 48 }}>
         <Title level={2}>
           <HistoryOutlined /> Recent Content
         </Title>
+
+        <Title level={3}>Recent Images</Title>
         <Row gutter={[24, 24]}>
           {recentImages?.map(image => (
-            <Col xs={24} sm={8} key={image.id}>
+            <Col
+              xs={24}
+              sm={8}
+              key={image.id}
+              onClick={() => navigateToFeature(`/image-generation`)}
+              className="cursor-pointer"
+            >
               <Card size="small" title="Generated Image">
                 <img
                   src={image.imageUrl}
@@ -106,8 +111,21 @@ export default function HomePage() {
               </Card>
             </Col>
           ))}
+          <Divider />
+        </Row>
+
+        <Title level={3}>Recent Articles</Title>
+        <Row gutter={[24, 24]}>
           {recentArticles?.map(article => (
-            <Col xs={24} sm={8} key={article.id}>
+            <Col
+              xs={24}
+              sm={8}
+              key={article.id}
+              onClick={() =>
+                navigateToFeature(`/article-writing?articleId=${article.id}`)
+              }
+              className="cursor-pointer"
+            >
               <Card size="small" title="Written Article">
                 <Title level={5} ellipsis>
                   {article.title}
@@ -120,7 +138,7 @@ export default function HomePage() {
       </div>
 
       {/* Quick-start Templates */}
-      <div style={{ marginTop: 48 }}>
+      {/* <div style={{ marginTop: 48 }}>
         <Title level={2}>
           <RocketOutlined /> Quick-start Templates
         </Title>
@@ -143,7 +161,7 @@ export default function HomePage() {
             </Col>
           ))}
         </Row>
-      </div>
+      </div> */}
     </PageLayout>
   )
 }

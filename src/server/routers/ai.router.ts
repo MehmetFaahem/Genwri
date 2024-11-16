@@ -4,7 +4,7 @@ import { Trpc } from '@/core/trpc/server'
 import { TRPCError } from '@trpc/server'
 import axios from 'axios'
 import { z } from 'zod'
-import { OpenaiService } from '../libraries/openai'
+import { AiService } from '../libraries/cloudflare'
 import { UploadFileType, UploadService } from '../libraries/upload'
 
 /**
@@ -20,10 +20,17 @@ import { UploadFileType, UploadService } from '../libraries/upload'
  * @import import { Api } from '@/core/trpc'
  */
 const check = () => {
-  if (!OpenaiService.isActive()) {
+  // if (!OpenaiService.isActive()) {
+  //   throw new TRPCError({
+  //     code: 'INTERNAL_SERVER_ERROR',
+  //     message: 'Set SERVER_OPENAI_API_KEY in your .env to activate OpenAI',
+  //   })
+  // }
+  if (!AiService.isActive()) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
-      message: 'Set SERVER_OPENAI_API_KEY in your .env to activate OpenAI',
+      message:
+        'Set SERVER_CLOUDFLARE_API_KEY and SERVER_CLOUDFLARE_ACCOUNT_ID in your .env to activate Cloudflare AI',
     })
   }
 }
@@ -40,7 +47,7 @@ export const AiRouter = Trpc.createRouter({
       const { prompt, attachmentUrls } = input
       check()
 
-      const answer = await OpenaiService.generateText({
+      const answer = await AiService.generateText({
         prompt,
         attachmentUrls,
       })
@@ -69,11 +76,10 @@ export const AiRouter = Trpc.createRouter({
         ),
       })
 
-      const json = await OpenaiService.generateJson(
+      const json = await AiService.generateJson(
         input.instruction,
         input.content,
         schema,
-        input.attachmentUrls,
       )
 
       return json
@@ -84,7 +90,7 @@ export const AiRouter = Trpc.createRouter({
     .mutation(async ({ input }) => {
       check()
 
-      const url = await OpenaiService.generateImage(input.prompt)
+      const url = await AiService.generateImage(input.prompt)
 
       return { url }
     }),
@@ -103,7 +109,7 @@ export const AiRouter = Trpc.createRouter({
         'audio.wav',
       )
 
-      const translation = await OpenaiService.fromAudioToText(readstream)
+      const translation = await AiService.fromAudioToText(readstream)
 
       return { translation }
     }),
@@ -113,7 +119,7 @@ export const AiRouter = Trpc.createRouter({
     .mutation(async ({ input }) => {
       check()
 
-      const buffer = await OpenaiService.fromTextToAudio(input.text)
+      const buffer = await AiService.fromTextToAudio(input.text)
 
       const now = DateHelper.getNow()
 
