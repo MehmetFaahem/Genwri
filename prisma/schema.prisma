@@ -17,7 +17,6 @@ enum UserStatus {
   VERIFIED
 }
 
-/// @@allow('all', true)
 model Template {
   id          String   @id() @default(uuid())
   name        String
@@ -28,7 +27,6 @@ model Template {
   updatedAt   DateTime @default(now()) @updatedAt()
 }
 
-/// @@allow('all', true)
 model Image {
   id        String   @id() @default(uuid())
   prompt    String
@@ -42,7 +40,6 @@ model Image {
   updatedAt DateTime @default(now()) @updatedAt()
 }
 
-/// @@allow('all', true)
 model Article {
   id        String   @id() @default(uuid())
   title     String
@@ -58,7 +55,6 @@ model Article {
   updatedAt DateTime @default(now()) @updatedAt()
 }
 
-/// @@allow('all', true)
 model Download {
   id           String   @id() @default(uuid())
   resourceId   String
@@ -71,11 +67,6 @@ model Download {
   updatedAt    DateTime @default(now()) @updatedAt()
 }
 
-/// @@auth
-/// @@allow('all', auth().id == this.id)
-/// @@allow('all', auth().globalRole == 'ADMIN')
-/// @@allow('create', globalRole != 'ADMIN')
-/// @@allow('read', true)
 model User {
   id              String     @id() @default(uuid())
   name            String?
@@ -85,8 +76,6 @@ model User {
   emailVerified   Boolean?
   status          UserStatus @default(VERIFIED)
   globalRole      String     @default("USER")
-  /// @password
-  /// @omit
   password        String?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @default(now()) @updatedAt()
@@ -97,7 +86,6 @@ model User {
   downloads       Download[] @relation("user")
 }
 
-/// @@allow('all', auth().id == user.id)
 model Account {
   id                       String  @id() @default(uuid())
   userId                   String
@@ -117,7 +105,6 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-/// @@allow('all', auth().id == user.id)
 model Session {
   id           String   @id() @default(uuid())
   sessionToken String   @unique()
