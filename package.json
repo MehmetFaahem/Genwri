@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "init": "npm install && npm run docker:init ; npm run env:init ; npm run global:sync ; npm run database:seed",
+    "init": "npm install --force && npm run docker:init ; npm run env:init ; npm run global:sync ; npm run database:seed",
     "dev": "next dev -p 8099",
     "debug": "NODE_OPTIONS='--inspect' next dev -p 8099",
     "build": "npm run crud:sync && next build",
