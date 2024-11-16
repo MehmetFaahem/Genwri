@@ -199,6 +199,13 @@ export default function LandingPage() {
     },
   ]
 
+  const logos = [
+    // Add your logo URLs here
+    // Example:
+    // { src: 'https://example.com/logo1.png' },
+    // { src: 'https://example.com/logo2.png' },
+  ]
+
   return (
     <LandingContainer navItems={navItems}>
       <LandingHero

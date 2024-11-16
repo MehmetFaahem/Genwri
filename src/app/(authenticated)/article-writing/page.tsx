@@ -12,6 +12,8 @@ import {
   Col,
   Divider,
 } from 'antd'
+import { Editor } from '@tinymce/tinymce-react'
+import { downloadAsFormat } from '@/core/helpers/file/download'
 import { useState } from 'react'
 import {
   FileTextOutlined,
@@ -98,22 +100,14 @@ export default function ArticleWritingPage() {
   }
 
   const handleDownload = async (format: string) => {
-    if (!selectedArticle) return
-    try {
-      await createDownload.mutateAsync({
-        data: {
-          resourceId: selectedArticle,
-          resourceType: 'ARTICLE',
-          format,
-          downloadUrl: 'generated-url',
-          userId: user?.id,
-        },
-      })
-      enqueueSnackbar(`Article downloaded as ${format}`, { variant: 'success' })
-    } catch (error) {
-      enqueueSnackbar('Failed to download article', { variant: 'error' })
+      if (!selectedArticle || !content) return
+      try {
+        downloadAsFormat(content, format)
+        enqueueSnackbar(`Article downloaded as ${format}`, { variant: 'success' })
+      } catch (error) {
+        enqueueSnackbar('Failed to download article', { variant: 'error' })
+      }
     }
-  }
 
   return (
     <PageLayout layout="narrow">
@@ -217,6 +211,7 @@ export default function ArticleWritingPage() {
                   onChange={handleDownload}
                   disabled={!selectedArticle}
                 >
+                  <Select.Option value="html">HTML</Select.Option>
                   <Select.Option value="docx">DOCX</Select.Option>
                   <Select.Option value="pdf">PDF</Select.Option>
                   <Select.Option value="txt">TXT</Select.Option>
@@ -224,11 +219,22 @@ export default function ArticleWritingPage() {
               </Space>
             }
           >
-            <TextArea
-              rows={12}
+            <Editor
               value={content}
-              onChange={e => setContent(e.target.value)}
-              placeholder="Generated content will appear here..."
+              onEditorChange={(content) => setContent(content)}
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                  'undo redo | formatselect | bold italic backcolor | \
+                  alignleft aligncenter alignright alignjustify | \
+                  bullist numlist outdent indent | removeformat | help'
+              }}
             />
           </Card>
         </Col>
