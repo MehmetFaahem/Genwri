@@ -175,6 +175,8 @@ export default function ArticleWritingPage() {
   const [content, setContent] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<string | null>(null)
+  const [splashVisible, setSplashVisible] = useState(false)
+  const [timer, setTimer] = useState(30)
 
   const { data: articles, refetch } = Api.article.findMany.useQuery({
     where: { userId: user?.id },
@@ -189,6 +191,7 @@ export default function ArticleWritingPage() {
   const handleGenerate = async () => {
     try {
       setIsGenerating(true)
+      setSplashVisible(true)
       const prompt = `Craft an exceptional, ${tone} article on ${topic}, optimized for SEO. Ensure the following keywords are seamlessly integrated throughout the content: ${keywords}. The article should be approximately ${length} words long, well-structured, engaging, and include headings, subheadings, and a strong call-to-action where appropriate. Focus on readability, keyword density, and delivering value to the target audience.`
 
       const response = await generateText.mutateAsync({ prompt })
@@ -257,131 +260,178 @@ export default function ArticleWritingPage() {
     }
   }, [articleId])
 
+  useEffect(() => {
+    if (splashVisible) {
+      const countdown = setInterval(() => {
+        setTimer(prev => {
+          if (prev === 1) {
+            clearInterval(countdown)
+            setSplashVisible(false)
+            return 30
+          }
+          return prev - 1
+        })
+      }, 1000)
+      return () => clearInterval(countdown)
+    }
+  }, [splashVisible])
+
   return (
-    <PageLayout layout="narrow">
-      <Title level={2}>
-        <FileTextOutlined /> Article Writing
-      </Title>
-      <Text>Generate SEO-friendly articles with AI assistance</Text>
+    <>
+      <PageLayout layout="narrow">
+        <Title level={2}>
+          <FileTextOutlined /> Article Writing
+        </Title>
+        <Text>Generate SEO-friendly articles with AI assistance</Text>
 
-      <Card style={{ marginTop: 24 }}>
-        <Space direction="vertical" style={{ width: '100%' }} size="large">
-          <Input
-            placeholder="Enter topic"
-            value={topic}
-            onChange={e => setTopic(e.target.value)}
-          />
-          <Input
-            placeholder="Enter keywords (comma-separated)"
-            value={keywords}
-            onChange={e => setKeywords(e.target.value)}
-          />
-          <Row gutter={16}>
-            <Col span={12}>
-              <InputNumber
-                style={{ width: '100%' }}
-                min={100}
-                max={5000}
-                value={length}
-                onChange={value => setLength(value || 200)}
-                addonAfter="words"
-              />
-            </Col>
-            <Col span={12}>
-              <Select
-                style={{ width: '100%' }}
-                value={tone}
-                onChange={setTone}
-                options={[
-                  { value: 'professional', label: 'Professional' },
-                  { value: 'casual', label: 'Casual' },
-                  { value: 'formal', label: 'Formal' },
-                ]}
-              />
-            </Col>
-          </Row>
-          <Button
-            type="primary"
-            onClick={handleGenerate}
-            loading={isGenerating}
-            block
-          >
-            Generate Article
-          </Button>
-        </Space>
-      </Card>
+        <Card style={{ marginTop: 24 }}>
+          <Space direction="vertical" style={{ width: '100%' }} size="large">
+            <Input
+              placeholder="Enter topic"
+              value={topic}
+              onChange={e => setTopic(e.target.value)}
+            />
+            <Input
+              placeholder="Enter keywords (comma-separated)"
+              value={keywords}
+              onChange={e => setKeywords(e.target.value)}
+            />
+            <Row gutter={16}>
+              <Col span={12}>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  min={100}
+                  max={5000}
+                  value={length}
+                  onChange={value => setLength(value || 200)}
+                  addonAfter="words"
+                />
+              </Col>
+              <Col span={12}>
+                <Select
+                  style={{ width: '100%' }}
+                  value={tone}
+                  onChange={setTone}
+                  options={[
+                    { value: 'professional', label: 'Professional' },
+                    { value: 'casual', label: 'Casual' },
+                    { value: 'formal', label: 'Formal' },
+                  ]}
+                />
+              </Col>
+            </Row>
+            <Button
+              type="primary"
+              onClick={handleGenerate}
+              loading={isGenerating}
+              block
+            >
+              Generate Article
+            </Button>
+          </Space>
+        </Card>
 
-      <Divider>
-        <HistoryOutlined /> Article History
-      </Divider>
+        <Divider>
+          <HistoryOutlined /> Article History
+        </Divider>
 
-      <Row gutter={[16, 16]}>
-        <Col span={8}>
-          <Card>
-            {articles?.map(article => (
-              <div
-                key={article.id}
-                style={{
-                  cursor: 'pointer',
-                  padding: '8px',
-                  backgroundColor:
-                    selectedArticle === article.id ? '#f0f0f0' : 'transparent',
-                }}
-                onClick={() => {
-                  handleSelectArticle(article)
-                }}
-              >
-                <Text strong>{article.title}</Text>
-                <br />
-                <Text type="secondary">
-                  {dayjs(article.createdAt).format('MMM D, YYYY')}
-                </Text>
-              </div>
-            ))}
-          </Card>
-        </Col>
-        <Col span={16}>
-          <Card
-            title={
-              <Space>
-                <EditOutlined /> Editor
-              </Space>
-            }
-            extra={
-              <Space>
-                <Button onClick={handleSaveEdit} disabled={!selectedArticle}>
-                  Save Changes
-                </Button>
-                <Button
-                  onClick={() => {
-                    const article = articles?.find(
-                      a => a.id === selectedArticle,
-                    )
-                    if (article) {
-                      downloadAsDocx(article.title, content)
-                    }
+        <Row gutter={[16, 16]}>
+          <Col span={8}>
+            <Card>
+              {articles?.map(article => (
+                <div
+                  key={article.id}
+                  style={{
+                    cursor: 'pointer',
+                    padding: '8px',
+                    backgroundColor:
+                      selectedArticle === article.id
+                        ? '#f0f0f0'
+                        : 'transparent',
                   }}
-                  disabled={!selectedArticle}
-                  icon={<FileTextOutlined />}
+                  onClick={() => {
+                    handleSelectArticle(article)
+                  }}
                 >
-                  Download DOCX
-                </Button>
-              </Space>
-            }
-          >
-            <div className="quill-editor">
-              <ReactQuill
-                theme="snow"
-                value={content}
-                onChange={setContent}
-                modules={quillModules}
-                formats={quillFormats}
-                style={{ height: 'auto' }}
-              />
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </PageLayout>
+                  <Text strong>{article.title}</Text>
+                  <br />
+                  <Text type="secondary">
+                    {dayjs(article.createdAt).format('MMM D, YYYY')}
+                  </Text>
+                </div>
+              ))}
+            </Card>
+          </Col>
+          <Col span={16}>
+            <Card
+              title={
+                <Space>
+                  <EditOutlined /> Editor
+                </Space>
+              }
+              extra={
+                <Space>
+                  <Button onClick={handleSaveEdit} disabled={!selectedArticle}>
+                    Save Changes
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      const article = articles?.find(
+                        a => a.id === selectedArticle,
+                      )
+                      if (article) {
+                        downloadAsDocx(article.title, content)
+                      }
+                    }}
+                    disabled={!selectedArticle}
+                    icon={<FileTextOutlined />}
+                  >
+                    Download DOCX
+                  </Button>
+                </Space>
+              }
+            >
+              <div className="quill-editor">
+                <ReactQuill
+                  theme="snow"
+                  value={content}
+                  onChange={setContent}
+                  modules={quillModules}
+                  formats={quillFormats}
+                  style={{ height: 'auto' }}
+                />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </PageLayout>
+      <div
+        style={{
+          display: splashVisible ? 'flex' : 'none',
+          height: '100vh',
+          width: '100vw',
+          backgroundColor: 'white',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 1000,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <Text style={{ fontSize: '8rem' }}>
+            {`00:${timer < 10 ? `0${timer}` : timer}`}
+          </Text>
+          <Title level={3}>
+            Please be patient, I&apos;m generating something amazing
+          </Title>
+        </div>
+      </div>
+    </>
   )
 }

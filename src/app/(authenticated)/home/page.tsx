@@ -8,10 +8,19 @@ import {
   HistoryOutlined,
   PictureOutlined,
 } from '@ant-design/icons'
-import { Card, Col, Divider, Row, Typography } from 'antd'
+import { Button, Card, Col, Divider, Row, Typography } from 'antd'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from 'notistack'
 const { Title, Text } = Typography
+
+const dummyImages = [
+  'https://cdn.pixabay.com/photo/2024/03/04/14/17/ai-generated-8612487_640.jpg',
+  'https://cdn.pixabay.com/photo/2022/11/15/04/54/automotive-7593064_640.jpg',
+  'https://cdn.pixabay.com/photo/2022/09/29/17/15/halloween-7487706_640.jpg',
+  'https://cdn.pixabay.com/photo/2024/01/20/12/12/ai-generated-8520972_640.png',
+  'https://cdn.pixabay.com/photo/2022/09/16/23/10/temple-7459835_640.jpg',
+  'https://cdn.pixabay.com/photo/2024/05/21/11/46/house-8777647_640.jpg',
+]
 
 export default function HomePage() {
   const router = useRouter()
@@ -91,7 +100,15 @@ export default function HomePage() {
           <HistoryOutlined /> Recent Content
         </Title>
 
-        <Title level={3}>Recent Images</Title>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Title level={3}>Recent Images</Title>
+          <Button
+            type="link"
+            onClick={() => navigateToFeature('/image-generation')}
+          >
+            Create New
+          </Button>
+        </div>
         <Row gutter={[24, 24]}>
           {recentImages?.map(image => (
             <Col
@@ -111,6 +128,23 @@ export default function HomePage() {
               </Card>
             </Col>
           ))}
+          {recentImages?.length === 0 &&
+            dummyImages.map((image, index) => (
+              <Col xs={24} sm={8} key={index}>
+                <Card size="default">
+                  <img
+                    src={image}
+                    alt="Generated Image"
+                    style={{
+                      width: '100%',
+                      height: 250,
+                      objectFit: 'cover',
+                      borderRadius: 8,
+                    }}
+                  />
+                </Card>
+              </Col>
+            ))}
           <Divider />
         </Row>
 
@@ -134,6 +168,13 @@ export default function HomePage() {
               </Card>
             </Col>
           ))}
+          {recentArticles?.length === 0 && (
+            <Col xs={24} sm={8}>
+              <Text>
+                No recent articles. Generate an article to see it here.
+              </Text>
+            </Col>
+          )}
         </Row>
       </div>
 
