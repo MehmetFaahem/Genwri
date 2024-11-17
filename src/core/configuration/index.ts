@@ -11,7 +11,7 @@ const getBaseUrl = () => {
   }
 
   if (baseUrl) {
-    if (baseUrl.startsWith('http')) {
+    if (baseUrl.startsWith('http') || baseUrl.startsWith('https')) {
       return baseUrl
     } else {
       return `https://${baseUrl}`
@@ -22,7 +22,15 @@ const getBaseUrl = () => {
 }
 
 const getAuthenticationSecret = () => {
-  return process.env.NEXTAUTH_SECRET
+  const secret = process.env.NEXTAUTH_SECRET
+
+  if (!secret && process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'NEXTAUTH_SECRET environment variable is required in production',
+    )
+  }
+
+  return secret
 }
 
 export const Configuration = {
