@@ -17,20 +17,20 @@ export const LandingFAQ: React.FC<Props> = ({
 }) => {
   return (
     <section
-      className={DesignSystemUtility.buildClassNames('py-16 px-5', className)}
+      className={DesignSystemUtility.buildClassNames('py-8 px-5', className)}
       {...props}
     >
       <div className="max-w-7xl mx-auto ">
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/2">
+        <div className="flex flex-col">
+          {/* <div className="w-full">
             <h3 className="text-3xl lg:text-4xl font-bold lg:tracking-tight">
               {title}
             </h3>
             <p className="text-lg mt-4 text-slate-600 dark:text-slate-400">
               {subtitle}
             </p>
-          </div>
-          <div className="w-full md:w-1/2 max-w-xl mx-auto">
+          </div> */}
+          <div className="w-full max-w-xl mx-auto">
             <div className="grid divide-y divide-neutral-200 dark:divide-slate-400">
               {questionAnswers.map((item, index) => (
                 <div className="py-5" key={index}>

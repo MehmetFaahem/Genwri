@@ -27,20 +27,6 @@ export const Mobilebar: React.FC<Props> = ({ keySelected, items }) => {
     <>
       <Flex align="center" justify="space-between" className="px-2">
         <Flex>
-          {user && (
-            <Flex>
-              <Avatar
-                src={user.pictureUrl}
-                alt={user.name}
-                size="small"
-                onClick={() => router.push('/profile')}
-                style={{ cursor: 'pointer' }}
-              >
-                {Utility.stringToInitials(user.name)}
-              </Avatar>
-            </Flex>
-          )}
-
           <Logo height={40} />
         </Flex>
 
@@ -58,6 +44,19 @@ export const Mobilebar: React.FC<Props> = ({ keySelected, items }) => {
             style={{ width: 46 }}
             overflowedIndicator={<MenuOutlined />}
           />
+          {user && (
+            <Flex>
+              <Avatar
+                src={user.pictureUrl}
+                alt={user.name}
+                size="small"
+                onClick={() => router.push('/profile')}
+                style={{ cursor: 'pointer' }}
+              >
+                {Utility.stringToInitials(user.name)}
+              </Avatar>
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </>

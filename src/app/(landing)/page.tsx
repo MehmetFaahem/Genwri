@@ -6,7 +6,6 @@ import { LandingFeatures } from '@/designSystem/landing/LandingFeatures'
 import { LandingHero } from '@/designSystem/landing/LandingHero'
 import { LandingHowItWorks } from '@/designSystem/landing/LandingHowItWorks'
 import { LandingPainPoints } from '@/designSystem/landing/LandingPainPoints'
-import { LandingPricing } from '@/designSystem/landing/LandingPricing'
 import { LandingSocialRating } from '@/designSystem/landing/LandingSocialRating'
 import { LandingTestimonials } from '@/designSystem/landing/LandingTestimonials'
 import {
@@ -17,6 +16,8 @@ import {
   SearchOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons'
+
+import LandingPhoto from 'public/landing_photo.png'
 
 export default function LandingPage() {
   const features = [
@@ -78,10 +79,7 @@ export default function LandingPage() {
       title: `Features`,
       link: `#features`,
     },
-    {
-      title: `Pricing`,
-      link: `#pricing`,
-    },
+
     {
       title: `FAQ`,
       link: `#faq`,
@@ -211,7 +209,7 @@ export default function LandingPage() {
         title={`Create Professional Content in Seconds with AI`}
         subtitle={`Generate unlimited AI images and SEO-optimized articles. No design skills needed. No writing expertise required.`}
         buttonText={`Start Creating For Free`}
-        pictureUrl={`https://marblism-dashboard-api--production-public.s3.us-west-1.amazonaws.com/kGR4VC-genwri-phTP`}
+        pictureUrl={LandingPhoto.src}
         socialProof={
           <LandingSocialRating
             avatarItems={avatarItems}
@@ -240,12 +238,12 @@ export default function LandingPage() {
         subtitle={`See how Genwri is helping businesses save time and money while creating better content`}
         testimonials={testimonials}
       />
-      <LandingPricing
+      {/* <LandingPricing
         id="pricing"
         title={`Start Creating Professional Content Today`}
         subtitle={`Choose the perfect plan for your content needs`}
         packages={packages}
-      />
+      /> */}
       <LandingFAQ
         id="faq"
         title={`Common Questions About Genwri`}

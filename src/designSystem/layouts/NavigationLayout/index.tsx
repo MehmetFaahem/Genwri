@@ -1,4 +1,3 @@
-import { useUserContext } from '@/core/context'
 import { Flex } from 'antd'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
@@ -77,7 +76,7 @@ export const NavigationLayout: React.FC<Props> = ({ children }) => {
 
       <Mobilebar keySelected={keySelected} items={itemsMobile} />
 
-      <Flex flex={1} style={{ overflowY: 'hidden' }}>
+      <Flex flex={1}>
         <Leftbar
           keySelected={keySelected}
           items={itemsLeftbar}

@@ -1,5 +1,9 @@
 import { Logo } from '@/designSystem/layouts/NavigationLayout/components/Logo'
-import { LinkedinFilled, TwitterCircleFilled } from '@ant-design/icons'
+import {
+  GithubFilled,
+  LinkedinFilled,
+  TwitterCircleFilled,
+} from '@ant-design/icons'
 import Link from 'next/link'
 import { HTMLAttributes } from 'react'
 
@@ -8,14 +12,19 @@ interface Props extends HTMLAttributes<HTMLElement> {}
 export const LandingFooter: React.FC<Props> = ({ ...props }) => {
   const socials = [
     {
-      name: 'X',
+      name: 'Youtube',
       icon: <TwitterCircleFilled />,
-      link: 'https://twitter.com/',
+      link: 'https://www.youtube.com/@justcodethat',
     },
     {
       name: 'LinkedIn',
       icon: <LinkedinFilled />,
-      link: 'https://linkedin.com/',
+      link: 'https://www.linkedin.com/in/muhammad-faahem/',
+    },
+    {
+      name: 'Github',
+      icon: <GithubFilled />,
+      link: 'https://github.com/MehmetFaahem',
     },
   ]
   return (
@@ -26,7 +35,7 @@ export const LandingFooter: React.FC<Props> = ({ ...props }) => {
             <div className="mr-4  md:flex mb-4">
               <Logo height={50} isLabel />
             </div>
-            <div>Copyright &copy; 2024</div>
+            <div>Copyright &copy; Muhammad Faheem</div>
             <div className="mt-2">All rights reserved</div>
           </div>
           <div className="grid grid-cols-3 gap-10 items-start mt-10 md:mt-0">
@@ -37,6 +46,7 @@ export const LandingFooter: React.FC<Props> = ({ ...props }) => {
                   className="transition-colors  text-xs sm:text-sm"
                   href={link.link}
                 >
+                  <span className="mr-2">{link.icon}</span>
                   {link.name}
                 </Link>
               ))}

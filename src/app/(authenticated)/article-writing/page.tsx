@@ -335,8 +335,8 @@ export default function ArticleWritingPage() {
           <HistoryOutlined /> Article History
         </Divider>
 
-        <Row gutter={[16, 16]}>
-          <Col span={8}>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="md:w-1/3 w-full">
             <Card>
               {articles?.map(article => (
                 <div
@@ -366,8 +366,8 @@ export default function ArticleWritingPage() {
                 </Text>
               )}
             </Card>
-          </Col>
-          <Col span={16}>
+          </div>
+          <div className="md:w-2/3 w-full">
             <Card
               title={
                 <Space>
@@ -413,8 +413,8 @@ export default function ArticleWritingPage() {
                 />
               </div>
             </Card>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </PageLayout>
       <div
         style={{
