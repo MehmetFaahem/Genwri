@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "crud:sync": "npx zenstack generate",
     "init": "npm install --force && npm run docker:init ; npm run env:init ; npm run global:sync ; npm run database:seed",
     "dev": "next dev -p 8099",
     "debug": "NODE_OPTIONS='--inspect' next dev -p 8099",
@@ -12,7 +13,6 @@
     "lint": "next lint",
     "check": "tsc ; eslint . --ext .js,.jsx,.ts,.tsx ; npm zenstack check",
     "global:sync": "npm run crud:sync && npm run database:sync:dev",
-    "crud:sync": "npx zenstack generate",
     "database:sync": "prisma db push",
     "database:sync:dev": "prisma db push --accept-data-loss",
     "database:seed": "tsx ./prisma/seed/mockUser.ts && tsx ./prisma/seed/mockData.ts ",
@@ -80,7 +80,6 @@
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
-    "@marblism/eslint-plugin": "^1.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/eslint": "^8.56.2",
     "@types/file-saver": "^2.0.7",
@@ -89,10 +88,10 @@
     "@types/node": "^20.11.20",
     "@types/react": "^18.2.57",
     "@types/react-dom": "^18.2.19",
-    "@zenstackhq/runtime": "2.5.0",
+    "@zenstackhq/runtime": "^2.5.0",
     "@zenstackhq/server": "2.5.0",
-    "@zenstackhq/tanstack-query": "2.5.0",
-    "@zenstackhq/trpc": "2.5.0",
+    "@zenstackhq/tanstack-query": "^2.5.0",
+    "@zenstackhq/trpc": "^2.5.0",
     "concurrently": "^8.2.2",
     "docx": "^9.0.3",
     "eslint": "^8.0.0",
