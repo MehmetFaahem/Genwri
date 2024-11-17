@@ -360,6 +360,11 @@ export default function ArticleWritingPage() {
                   </Text>
                 </div>
               ))}
+              {articles?.length === 0 && (
+                <Text type="secondary">
+                  No articles found. Generate one above!
+                </Text>
+              )}
             </Card>
           </Col>
           <Col span={16}>
@@ -391,7 +396,13 @@ export default function ArticleWritingPage() {
                 </Space>
               }
             >
-              <div className="quill-editor">
+              <div
+                className="quill-editor"
+                style={{
+                  pointerEvents:
+                    !selectedArticle || isGenerating ? 'none' : 'auto',
+                }}
+              >
                 <ReactQuill
                   theme="snow"
                   value={content}
