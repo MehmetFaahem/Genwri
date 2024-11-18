@@ -1,10 +1,10 @@
 'use client'
 
-import { WorkspaceProvider } from '@/.marblism/workspace'
 import { AnalyticsProvider } from '@/core/analytics'
 import { UserProvider } from '@/core/context'
 import { TRPCProvider } from '@/core/trpc'
 import { DesignSystemProvider } from '@/designSystem'
+import { WorkspaceProvider } from '@/principals/workspace'
 import { SessionProvider } from 'next-auth/react'
 import { ReactNode } from 'react'
 

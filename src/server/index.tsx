@@ -1,5 +1,5 @@
-import { createRouter } from '@/.marblism/api/routers'
 import { Trpc } from '@/core/trpc/server'
+import { createRouter } from '@/principals/api/routers'
 import { AiRouter } from './routers/ai.router'
 import { AuthenticationRouter } from './routers/authentication.router'
 import { ConfigurationRouter } from './routers/configuration.router'

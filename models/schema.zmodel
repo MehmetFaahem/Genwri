@@ -21,7 +21,7 @@ datasource db {
 
 plugin trpc {
     provider = '@zenstackhq/trpc'
-    output = "./../src/.marblism/api"
+    output = "./../src/principals/api"
     generateClientHelpers = ['react']
     generateModelActions = ['create', 'update', 'delete', 'findMany', 'findFirst', 'findUnique', 'createMany', 'updateMany', 'deleteMany']
 }

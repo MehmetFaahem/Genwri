@@ -23,7 +23,7 @@
     "docker:init": "docker compose -p marblism-app up -d",
     "env:init": "node scripts/env.js",
     "format": "npm run format:code && npm run format:models",
-    "format:code": "prettier --write \"src/!(*.marblism)/**/*.{ts,tsx}\"",
+    "format:code": "prettier --write \"src/!(*principals)/**/*.{ts,tsx}\"",
     "format:models": "node scripts/format.models.js"
   },
   "dependencies": {
