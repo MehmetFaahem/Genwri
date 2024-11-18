@@ -232,7 +232,7 @@ export default function ImageGenerationPage() {
             textAlign: 'center',
           }}
         >
-          <Text style={{ fontSize: '8rem' }}>
+          <Text style={{ fontSize: '6rem' }}>
             {`00:${timer < 10 ? `0${timer}` : timer}`}
           </Text>
           <Title level={3}>

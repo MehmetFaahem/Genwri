@@ -371,7 +371,7 @@ export default function ArticleWritingPage() {
             <Card
               title={
                 <Space>
-                  <EditOutlined /> Editor
+                  <EditOutlined />
                 </Space>
               }
               extra={
@@ -435,7 +435,7 @@ export default function ArticleWritingPage() {
             textAlign: 'center',
           }}
         >
-          <Text style={{ fontSize: '8rem' }}>
+          <Text style={{ fontSize: '6rem' }}>
             {`00:${timer < 10 ? `0${timer}` : timer}`}
           </Text>
           <Title level={3}>
