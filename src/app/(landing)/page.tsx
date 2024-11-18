@@ -1,4 +1,8 @@
 'use client'
+import {
+  preventContextMenu,
+  preventKeyboardEvent,
+} from '@/core/helpers/preventer'
 import { LandingCTA } from '@/designSystem/landing/LandingCTA'
 import { LandingContainer } from '@/designSystem/landing/LandingContainer'
 import LandingFAQ from '@/designSystem/landing/LandingFAQ'
@@ -18,6 +22,7 @@ import {
 } from '@ant-design/icons'
 
 import LandingPhoto from 'public/landing_photo.png'
+import { useEffect } from 'react'
 
 export default function LandingPage() {
   const features = [
@@ -203,8 +208,17 @@ export default function LandingPage() {
     // { src: 'https://example.com/logo2.png' },
   ]
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => preventKeyboardEvent(e as any)
+    document.addEventListener('keydown', handler)
+
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
+
   return (
-    <LandingContainer navItems={navItems}>
+    <LandingContainer navItems={navItems} onContextMenu={preventContextMenu}>
       <LandingHero
         title={`Create Professional Content in Seconds with AI`}
         subtitle={`Generate unlimited AI images and SEO-optimized articles. No design skills needed. No writing expertise required.`}

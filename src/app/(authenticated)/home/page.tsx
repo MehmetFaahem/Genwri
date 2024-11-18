@@ -11,6 +11,10 @@ import {
 import { Button, Card, Col, Divider, Row, Typography } from 'antd'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from 'notistack'
+
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
 const { Title, Text } = Typography
 
 const dummyImages = [
@@ -96,11 +100,22 @@ export default function HomePage() {
 
       {/* Recent Content */}
       <div style={{ marginTop: 48, marginBottom: 48 }}>
-        <Title level={2}>
-          <HistoryOutlined /> Recent Content
+        <Title
+          level={2}
+          style={{
+            color: 'GrayText',
+          }}
+        >
+          <HistoryOutlined /> Previous Contents
         </Title>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '20px',
+          }}
+        >
           <Title level={3}>Recent Images</Title>
           <Button
             type="link"
@@ -115,16 +130,24 @@ export default function HomePage() {
               xs={24}
               sm={8}
               key={image.id}
-              onClick={() => navigateToFeature(`/image-generation`)}
-              className="cursor-pointer"
+              // onClick={() => navigateToFeature(`/image-generation`)}
             >
               <Card size="small" title="Generated Image">
-                <img
-                  src={image.imageUrl}
-                  alt={image.prompt}
-                  style={{ width: '100%', height: 150, objectFit: 'cover' }}
-                />
-                <Text ellipsis>{image.prompt}</Text>
+                <Zoom>
+                  <img
+                    src={image.imageUrl}
+                    alt={image.prompt}
+                    style={{ width: '100%', height: 150, objectFit: 'cover' }}
+                  />
+                </Zoom>
+                <Text
+                  ellipsis
+                  style={{
+                    marginTop: '10px',
+                  }}
+                >
+                  {image.prompt}
+                </Text>
               </Card>
             </Col>
           ))}

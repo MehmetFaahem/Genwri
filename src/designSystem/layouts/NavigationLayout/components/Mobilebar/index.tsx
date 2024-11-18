@@ -6,6 +6,11 @@ import { Avatar, Flex, Menu, Tag } from 'antd'
 import { useRouter } from 'next/navigation'
 import { NavigationItem } from '../../types'
 
+import {
+  preventContextMenu,
+  preventKeyboardEvent,
+} from '@/core/helpers/preventer'
+import { useEffect } from 'react'
 import { Logo } from '../Logo'
 
 interface Props {
@@ -14,6 +19,15 @@ interface Props {
 }
 
 export const Mobilebar: React.FC<Props> = ({ keySelected, items }) => {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => preventKeyboardEvent(e as any)
+    document.addEventListener('keydown', handler)
+
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
+
   const router = useRouter()
 
   const { user, checkRole } = useUserContext()
@@ -25,7 +39,12 @@ export const Mobilebar: React.FC<Props> = ({ keySelected, items }) => {
 
   return (
     <>
-      <Flex align="center" justify="space-between" className="px-2">
+      <Flex
+        align="center"
+        justify="space-between"
+        className="px-2"
+        onContextMenu={preventContextMenu}
+      >
         <Flex>
           <Logo height={40} />
         </Flex>

@@ -1,4 +1,8 @@
 'use client'
+import {
+  preventContextMenu,
+  preventKeyboardEvent,
+} from '@/core/helpers/preventer'
 import { Utility } from '@/core/helpers/utility'
 import { Api } from '@/core/trpc'
 import { AppHeader } from '@/designSystem/ui/AppHeader'
@@ -50,8 +54,23 @@ export default function RegisterPage() {
     }
   }
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => preventKeyboardEvent(e as any)
+    document.addEventListener('keydown', handler)
+
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
+
   return (
-    <Flex align="center" justify="center" vertical flex={1}>
+    <Flex
+      align="center"
+      justify="center"
+      vertical
+      flex={1}
+      onContextMenu={preventContextMenu}
+    >
       <Flex
         vertical
         style={{

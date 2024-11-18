@@ -1,6 +1,10 @@
+import {
+  preventContextMenu,
+  preventKeyboardEvent,
+} from '@/core/helpers/preventer'
 import { Flex } from 'antd'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Leftbar } from './components/Leftbar'
 import { Mobilebar } from './components/Mobilebar'
 import { Topbar } from './components/Topbar'
@@ -11,6 +15,15 @@ interface Props {
 }
 
 export const NavigationLayout: React.FC<Props> = ({ children }) => {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => preventKeyboardEvent(e as any)
+    document.addEventListener('keydown', handler)
+
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
+
   const router = useRouter()
   const pathname = usePathname()
   const params: Record<string, string> = useParams()
@@ -76,7 +89,7 @@ export const NavigationLayout: React.FC<Props> = ({ children }) => {
 
       <Mobilebar keySelected={keySelected} items={itemsMobile} />
 
-      <Flex flex={1}>
+      <Flex flex={1} onContextMenu={preventContextMenu}>
         <Leftbar
           keySelected={keySelected}
           items={itemsLeftbar}

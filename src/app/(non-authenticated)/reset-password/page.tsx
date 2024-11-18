@@ -1,10 +1,15 @@
 'use client'
+
+import {
+  preventContextMenu,
+  preventKeyboardEvent,
+} from '@/core/helpers/preventer'
 import { Api } from '@/core/trpc'
 import { AppHeader } from '@/designSystem/ui/AppHeader'
 import { Alert, Button, Flex, Form, Input, Typography } from 'antd'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from 'notistack'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const { Text } = Typography
 
@@ -35,8 +40,23 @@ export default function ResetPasswordPage() {
     }
   }
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => preventKeyboardEvent(e as any)
+    document.addEventListener('keydown', handler)
+
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
+
   return (
-    <Flex align="center" justify="center" vertical flex={1}>
+    <Flex
+      align="center"
+      justify="center"
+      vertical
+      flex={1}
+      onContextMenu={preventContextMenu}
+    >
       <Flex
         vertical
         style={{

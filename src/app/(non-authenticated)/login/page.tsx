@@ -1,6 +1,10 @@
 'use client'
 
 import { Configuration } from '@/core/configuration'
+import {
+  preventContextMenu,
+  preventKeyboardEvent,
+} from '@/core/helpers/preventer'
 import { AppHeader } from '@/designSystem/ui/AppHeader'
 import { Button, Flex, Form, Input, Typography } from 'antd'
 import { getProviders, signIn } from 'next-auth/react'
@@ -85,8 +89,23 @@ export default function LoginPage() {
     }
   }
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => preventKeyboardEvent(e as any)
+    document.addEventListener('keydown', handler)
+
+    return () => {
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
+
   return (
-    <Flex align="center" justify="center" vertical flex={1}>
+    <Flex
+      align="center"
+      justify="center"
+      vertical
+      flex={1}
+      onContextMenu={preventContextMenu}
+    >
       <Flex
         vertical
         style={{

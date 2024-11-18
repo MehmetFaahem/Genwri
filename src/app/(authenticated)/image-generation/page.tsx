@@ -13,6 +13,9 @@ import { Button, Card, Col, Input, Row, Select, Space, Typography } from 'antd'
 import { useParams, useRouter } from 'next/navigation'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
 const { Title, Text } = Typography
 
 export default function ImageGenerationPage() {
@@ -123,7 +126,7 @@ export default function ImageGenerationPage() {
               />
 
               <Row gutter={16}>
-                <Col xs={24} sm={12}>
+                <Col xs={24} sm={12} style={{ marginTop: '10px' }}>
                   <Select
                     style={{ width: '100%' }}
                     value={style}
@@ -136,7 +139,7 @@ export default function ImageGenerationPage() {
                     ]}
                   />
                 </Col>
-                <Col xs={24} sm={12}>
+                <Col xs={24} sm={12} style={{ marginTop: '10px' }}>
                   <Select
                     style={{ width: '100%' }}
                     value={theme}
@@ -172,11 +175,17 @@ export default function ImageGenerationPage() {
                 <Col xs={24} sm={12} md={8} key={image.id}>
                   <Card
                     cover={
-                      <img
-                        alt={image.prompt}
-                        src={image.imageUrl}
-                        style={{ height: 200, objectFit: 'cover' }}
-                      />
+                      <Zoom>
+                        <img
+                          alt={image.prompt}
+                          src={image.imageUrl}
+                          style={{
+                            height: 200,
+                            objectFit: 'cover',
+                            width: '100%',
+                          }}
+                        />
+                      </Zoom>
                     }
                     actions={[
                       <Button
@@ -235,7 +244,7 @@ export default function ImageGenerationPage() {
           <Text style={{ fontSize: '6rem' }}>
             {`00:${timer < 10 ? `0${timer}` : timer}`}
           </Text>
-          <Title level={3}>
+          <Title level={3} style={{ color: 'GrayText', paddingInline: '20px' }}>
             Please be patient, I&apos;m generating something amazing
           </Title>
         </div>

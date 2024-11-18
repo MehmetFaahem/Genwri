@@ -165,6 +165,7 @@ export default function ArticleWritingPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const articleId = searchParams.get('articleId')
+  console.log(articleId)
   const { user } = useUserContext()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -252,13 +253,13 @@ export default function ArticleWritingPage() {
   }
 
   useEffect(() => {
-    if (articleId) {
-      const article = articles?.find(a => a.id === articleId)
+    if (articleId && articles) {
+      const article = articles.find(a => a.id === articleId)
       if (article) {
         handleSelectArticle(article)
       }
     }
-  }, [articleId])
+  }, [articleId, articles])
 
   useEffect(() => {
     if (splashVisible) {
@@ -438,7 +439,7 @@ export default function ArticleWritingPage() {
           <Text style={{ fontSize: '6rem' }}>
             {`00:${timer < 10 ? `0${timer}` : timer}`}
           </Text>
-          <Title level={3}>
+          <Title level={3} style={{ color: 'GrayText', paddingInline: '20px' }}>
             Please be patient, I&apos;m generating something amazing
           </Title>
         </div>
