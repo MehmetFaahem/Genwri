@@ -1,4 +1,3 @@
-import { MailjetProvider } from './providers/mailjet/mailjet.provider'
 import { NodemailerProvider } from './providers/nodemailer/nodemailer.provider'
 import { Provider } from './providers/provider'
 import { TemplateBase } from './templates/base'
@@ -34,7 +33,7 @@ export class Service {
     const isProduction = process.env.NODE_ENV === 'production'
 
     if (isProduction) {
-      this.provider = new MailjetProvider()
+      this.provider = new NodemailerProvider()
     } else {
       this.provider = new NodemailerProvider()
     }

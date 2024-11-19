@@ -11,13 +11,22 @@ export class NodemailerProvider implements Provider {
 
   private initialise() {
     try {
-      const host = process.env.SERVER_EMAIL_MAILPIT_HOST ?? 'localhost'
+      const host = process.env.SERVER_EMAIL_HOST ?? 'smtp.ethereal.email'
 
-      const port = process.env.SERVER_EMAIL_MAILPIT_PORT ?? 1022
+      const port = process.env.SERVER_EMAIL_PORT ?? 587
+      const user =
+        process.env.SERVER_EMAIL_SENDER_ADDRESS ??
+        'raquel.dickinson66@ethereal.email'
+      const pass =
+        process.env.SERVER_EMAIL_SENDER_PASSWORD ?? 'ctGKdb2gzWYpessyGp'
 
       this.client = NodemailerSDK.createTransport({
         host,
         port,
+        auth: {
+          user,
+          pass,
+        },
       })
 
       console.log(`Nodemailer is active (${host}:${port})`)
