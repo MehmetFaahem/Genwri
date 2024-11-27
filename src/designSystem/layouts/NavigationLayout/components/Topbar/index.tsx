@@ -38,7 +38,14 @@ export const Topbar: React.FC<Props> = ({ keySelected, items }) => {
 
   return (
     <>
-      <Flex align="center" className="px-4" onContextMenu={preventContextMenu}>
+      <Flex
+        align="center"
+        className="px-4"
+        onContextMenu={preventContextMenu}
+        style={{
+          marginBottom: '30px',
+        }}
+      >
         <Flex>
           <Logo height={40} />
         </Flex>

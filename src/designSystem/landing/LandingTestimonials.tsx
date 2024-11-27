@@ -1,4 +1,5 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { DesignSystemUtility } from '../helpers/utility'
 
 type Testimonial = {
@@ -22,59 +23,78 @@ export const LandingTestimonials: React.FC<Props> = ({
   className,
   ...props
 }) => {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  const nextTestimonial = () => {
+    setIsAnimating(true)
+    setTimeout(() => {
+      setCurrentTestimonial(prev => (prev + 1) % testimonials.length)
+      setIsAnimating(false)
+    }, 500) // Match the duration of the CSS transition
+  }
+
+  const prevTestimonial = () => {
+    setIsAnimating(true)
+    setTimeout(() => {
+      setCurrentTestimonial(prev =>
+        prev === 0 ? testimonials.length - 1 : prev - 1,
+      )
+      setIsAnimating(false)
+    }, 500) // Match the duration of the CSS transition
+  }
+
+  useEffect(() => {
+    const interval = setInterval(nextTestimonial, 10000)
+    return () => clearInterval(interval)
+  }, [testimonials.length])
+
   return (
     <section
-      className={DesignSystemUtility.buildClassNames('py-16 px-5', className)}
+      className={DesignSystemUtility.buildClassNames('py-24', className)}
       {...props}
     >
-      <div className="max-w-5xl mx-auto px-4 py-16 relative group overflow-hidden">
-        <div className="mt-16 md:mt-0 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold lg:tracking-tight">
-            {title}
-          </h2>
-          <p className="text-lg mt-4 text-slate-600 dark:text-slate-400">
-            {subtitle}
-          </p>
-        </div>
-
-        <div className="mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
-          {testimonials.map((testimonial: Testimonial, idx: number) => (
-            <TestimonialCard key={`testimonial-${idx}`} {...testimonial} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-const TestimonialCard = ({
-  name,
-  content,
-  designation,
-  avatar,
-}: Testimonial) => {
-  return (
-    <div className="mb-8 sm:break-inside-avoid">
-      <blockquote className="rounded-lg bg-gray-50 dark:bg-slate-800 p-6 shadow-sm sm:p-8">
-        <div className="flex items-center gap-4">
-          <img
-            alt=""
-            src={avatar}
-            className="size-14 rounded-full object-cover"
-          />
-
-          <div>
-            <p className="mt-0.5 text-lg font-medium text-gray-900 dark:text-slate-300">
-              {name}
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center mb-16">{title}</h2>
+        <div className="relative max-w-3xl mx-auto">
+          <div className="flex items-center justify-between absolute top-1/2 -translate-y-1/2 w-full">
+            <button
+              onClick={prevTestimonial}
+              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 -translate-x-12"
+            >
+              <FiChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={nextTestimonial}
+              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 translate-x-12"
+            >
+              <FiChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+          <div
+            className={`bg-white p-8 rounded-xl shadow-lg text-center transition-transform duration-500 ease-in-out ${
+              isAnimating
+                ? 'transform scale-95 opacity-50'
+                : 'transform scale-100 opacity-100'
+            }`}
+          >
+            <img
+              src={testimonials[currentTestimonial].avatar}
+              alt={testimonials[currentTestimonial].name}
+              className="w-20 h-20 rounded-full mx-auto mb-6 object-cover"
+            />
+            <p className="text-xl italic mb-6">
+              {testimonials[currentTestimonial].content}
             </p>
-            <p className="flex gap-0.5 text-gray-800 dark:text-slate-400">
-              {designation}
+            <h4 className="font-bold">
+              {testimonials[currentTestimonial].name}
+            </h4>
+            <p className="text-gray-600">
+              {testimonials[currentTestimonial].designation}
             </p>
           </div>
         </div>
-
-        <p className="mt-4 text-gray-700 dark:text-slate-400">{content}</p>
-      </blockquote>
-    </div>
+      </div>
+    </section>
   )
 }

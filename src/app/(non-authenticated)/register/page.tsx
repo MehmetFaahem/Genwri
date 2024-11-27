@@ -13,6 +13,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 
+import { BackgroundImage } from '@/designSystem/components/BackgroundImage'
+import pictureUrl from 'public/bg.jpg'
 export default function RegisterPage() {
   const router = useRouter()
   const { enqueueSnackbar } = useSnackbar()
@@ -71,12 +73,22 @@ export default function RegisterPage() {
       flex={1}
       onContextMenu={preventContextMenu}
     >
+      <div className="absolute inset-0">
+        <BackgroundImage src={pictureUrl} />
+      </div>
       <Flex
         vertical
         style={{
           width: '340px',
           paddingBottom: '100px',
           paddingTop: '100px',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: '10px',
+          zIndex: 10,
+          boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
+
+          padding: '40px',
         }}
         gap="middle"
       >

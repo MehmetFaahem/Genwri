@@ -1,4 +1,6 @@
+import { BackgroundImage } from '@/designSystem/components/BackgroundImage'
 import { Col, Flex, Row } from 'antd'
+import pictureUrl from 'public/bg.jpg'
 
 type LayoutType = 'full-width' | 'narrow' | 'super-narrow'
 
@@ -57,6 +59,9 @@ export const PageLayout: React.FC<Props> = ({
         overflowY: isScrollable ? 'auto' : undefined,
       }}
     >
+      <div className="fixed left-0 top-0 w-full h-full z-[-1]">
+        <BackgroundImage src={pictureUrl} />
+      </div>
       <Col {...props} {...breakpoints}>
         <Flex
           vertical

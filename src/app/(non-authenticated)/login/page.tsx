@@ -5,11 +5,13 @@ import {
   preventContextMenu,
   preventKeyboardEvent,
 } from '@/core/helpers/preventer'
+import { BackgroundImage } from '@/designSystem/components/BackgroundImage'
 import { AppHeader } from '@/designSystem/ui/AppHeader'
 import { Button, Flex, Form, Input, Typography } from 'antd'
 import { getProviders, signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSnackbar } from 'notistack'
+import pictureUrl from 'public/bg.jpg'
 import { useEffect, useState } from 'react'
 import GoogleButton from 'react-google-button'
 
@@ -106,12 +108,22 @@ export default function LoginPage() {
       flex={1}
       onContextMenu={preventContextMenu}
     >
+      <div className="absolute inset-0">
+        <BackgroundImage src={pictureUrl} />
+      </div>
       <Flex
         vertical
         style={{
           width: '340px',
           paddingBottom: '100px',
           paddingTop: '100px',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          backdropFilter: 'blur(10px)',
+          borderRadius: '10px',
+          zIndex: 10,
+          boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
+
+          padding: '40px',
         }}
         gap="middle"
       >

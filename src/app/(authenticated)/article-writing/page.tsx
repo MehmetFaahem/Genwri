@@ -8,18 +8,7 @@ import {
   FileTextOutlined,
   HistoryOutlined,
 } from '@ant-design/icons'
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Input,
-  InputNumber,
-  Row,
-  Select,
-  Space,
-  Typography,
-} from 'antd'
+import { Button, Card, Col, Row, Space, Typography } from 'antd'
 import dayjs from 'dayjs'
 import { Document, Packer, Paragraph, TextRun } from 'docx'
 import { saveAs } from 'file-saver'
@@ -27,6 +16,7 @@ import dynamic from 'next/dynamic'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
+import { ImFilesEmpty } from 'react-icons/im'
 import 'react-quill/dist/quill.snow.css' // Import Quill styles
 import './styles.css'
 
@@ -171,9 +161,11 @@ export default function ArticleWritingPage() {
 
   const [topic, setTopic] = useState('')
   const [keywords, setKeywords] = useState('')
-  const [length, setLength] = useState<number>(200)
+  const [length, setLength] = useState<number | null>(null)
   const [tone, setTone] = useState('professional')
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState(
+    'Your generated article will appear here',
+  )
   const [isGenerating, setIsGenerating] = useState(false)
   const [selectedArticle, setSelectedArticle] = useState<string | null>(null)
   const [splashVisible, setSplashVisible] = useState(false)
@@ -193,7 +185,7 @@ export default function ArticleWritingPage() {
     try {
       setIsGenerating(true)
       setSplashVisible(true)
-      const prompt = `Craft an exceptional, ${tone} article on ${topic}, optimized for SEO. Ensure the following keywords are seamlessly integrated throughout the content: ${keywords}. The article should be approximately ${length} words long, well-structured, engaging, and include headings, subheadings, and a strong call-to-action where appropriate. Focus on readability, keyword density, and delivering value to the target audience.`
+      const prompt = `Craft an exceptional, ${tone} article on ${topic}, optimized for SEO. Ensure the following keywords are seamlessly integrated throughout the content: ${keywords}. The article should be approximately ${length || 200} words long, well-structured, engaging, and include headings, subheadings, and a strong call-to-action where appropriate. Focus on readability, keyword density, and delivering value to the target audience.`
 
       const response = await generateText.mutateAsync({ prompt })
       console.log(response)
@@ -280,65 +272,104 @@ export default function ArticleWritingPage() {
   return (
     <>
       <PageLayout layout="narrow">
-        <Title level={2}>
-          <FileTextOutlined /> Article Writing
+        <Title level={2} style={{ color: '#ffffff' }}>
+          <FileTextOutlined /> AI Article Writer
         </Title>
-        <Text>Generate SEO-friendly articles with AI assistance</Text>
+        <Text style={{ color: '#ffffff' }}>
+          Generate SEO-friendly articles with AI assistance
+        </Text>
 
-        <Card style={{ marginTop: 24 }}>
+        <Card
+          style={{ marginTop: 24, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+        >
           <Space direction="vertical" style={{ width: '100%' }} size="large">
-            <Input
-              placeholder="Enter topic"
+            <input
+              type="text"
               value={topic}
               onChange={e => setTopic(e.target.value)}
+              className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              placeholder="Enter your topic"
             />
-            <Input
-              placeholder="Enter keywords (comma-separated)"
+            <input
+              type="text"
               value={keywords}
               onChange={e => setKeywords(e.target.value)}
+              className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              placeholder="Enter keywords (comma-separated)"
             />
             <Row gutter={16}>
               <Col span={12}>
-                <InputNumber
-                  style={{ width: '100%' }}
-                  min={100}
-                  max={5000}
+                <input
+                  type="number"
                   value={length}
-                  onChange={value => setLength(value || 200)}
-                  addonAfter="words"
+                  onChange={e => setLength(parseInt(e.target.value))}
+                  className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                  placeholder="Enter article length (Default: 200)"
                 />
               </Col>
               <Col span={12}>
-                <Select
-                  style={{ width: '100%' }}
+                <select
                   value={tone}
-                  onChange={setTone}
-                  options={[
-                    { value: 'professional', label: 'Professional' },
-                    { value: 'casual', label: 'Casual' },
-                    { value: 'formal', label: 'Formal' },
-                  ]}
-                />
+                  onChange={e => setTone(e.target.value)}
+                  className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                >
+                  {['professional', 'casual', 'formal'].map(option => (
+                    <option key={option} value={option}>
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
+                    </option>
+                  ))}
+                </select>
               </Col>
             </Row>
-            <Button
-              type="primary"
+            <button
               onClick={handleGenerate}
-              loading={isGenerating}
-              block
+              disabled={!topic || isGenerating}
+              className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              Generate Article
-            </Button>
+              {isGenerating ? (
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Generating...
+                </span>
+              ) : (
+                'Generate Article'
+              )}
+            </button>
           </Space>
         </Card>
 
-        <Divider>
-          <HistoryOutlined /> Article History
-        </Divider>
-
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-4 mt-10">
           <div className="md:w-1/3 w-full">
-            <Card>
+            <Title level={3} style={{ color: '#ffffff' }}>
+              <HistoryOutlined /> Article History
+            </Title>
+            <Card
+              style={{
+                minHeight: articles?.length > 0 ? 'auto' : '230px',
+                overflowY: 'auto',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                color: '#ffffff',
+              }}
+            >
               {articles?.map(article => (
                 <div
                   key={article.id}
@@ -347,36 +378,51 @@ export default function ArticleWritingPage() {
                     padding: '8px',
                     backgroundColor:
                       selectedArticle === article.id
-                        ? '#f0f0f0'
+                        ? '#ffffff10'
                         : 'transparent',
+                    color: '#ffffff',
                   }}
                   onClick={() => {
                     handleSelectArticle(article)
                   }}
                 >
-                  <Text strong>{article.title}</Text>
+                  <Text strong style={{ color: '#ffffff', fontSize: '1.2rem' }}>
+                    {article.title}
+                  </Text>
                   <br />
-                  <Text type="secondary">
+                  <Text type="secondary" style={{ color: '#ffffff80' }}>
                     {dayjs(article.createdAt).format('MMM D, YYYY')}
                   </Text>
                 </div>
               ))}
               {articles?.length === 0 && (
-                <Text type="secondary">
-                  No articles found. Generate one above!
-                </Text>
+                <div className="flex flex-col justify-center items-center gap-4 h-full mt-6">
+                  <div className="flex justify-center items-center">
+                    <ImFilesEmpty size={60} style={{ color: '#dddddd' }} />
+                  </div>
+                  <Text type="secondary" style={{ color: '#dddddd' }}>
+                    No articles found. Generate one above!
+                  </Text>
+                </div>
               )}
             </Card>
           </div>
           <div className="md:w-2/3 w-full">
+            <Title level={3} style={{ color: '#ffffff' }}>
+              <EditOutlined /> Article Editor
+            </Title>
             <Card
               title={
-                <Space>
+                <Space style={{ color: '#ffffff' }}>
                   <EditOutlined />
                 </Space>
               }
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                color: '#ffffff',
+              }}
               extra={
-                <Space>
+                <Space style={{ color: '#ffffff' }}>
                   <Button onClick={handleSaveEdit} disabled={!selectedArticle}>
                     Save Changes
                   </Button>
@@ -422,7 +468,7 @@ export default function ArticleWritingPage() {
           display: splashVisible ? 'flex' : 'none',
           height: '100vh',
           width: '100vw',
-          backgroundColor: 'white',
+          backgroundColor: 'transparent',
           position: 'fixed',
           top: 0,
           left: 0,
@@ -430,16 +476,17 @@ export default function ArticleWritingPage() {
           justifyContent: 'center',
           alignItems: 'center',
         }}
+        className="bg-transparent backdrop-blur-lg"
       >
         <div
           style={{
             textAlign: 'center',
           }}
         >
-          <Text style={{ fontSize: '6rem' }}>
+          <Text style={{ fontSize: '6rem', color: '#ffffff' }}>
             {`00:${timer < 10 ? `0${timer}` : timer}`}
           </Text>
-          <Title level={3} style={{ color: 'GrayText', paddingInline: '20px' }}>
+          <Title level={3} style={{ color: '#ffffff', paddingInline: '20px' }}>
             Please be patient, I&apos;m generating something amazing
           </Title>
         </div>

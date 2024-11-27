@@ -8,7 +8,6 @@ import { LandingContainer } from '@/designSystem/landing/LandingContainer'
 import LandingFAQ from '@/designSystem/landing/LandingFAQ'
 import { LandingFeatures } from '@/designSystem/landing/LandingFeatures'
 import { LandingHero } from '@/designSystem/landing/LandingHero'
-import { LandingHowItWorks } from '@/designSystem/landing/LandingHowItWorks'
 import { LandingPainPoints } from '@/designSystem/landing/LandingPainPoints'
 import { LandingSocialRating } from '@/designSystem/landing/LandingSocialRating'
 import { LandingTestimonials } from '@/designSystem/landing/LandingTestimonials'
@@ -21,7 +20,7 @@ import {
   ThunderboltOutlined,
 } from '@ant-design/icons'
 
-import LandingPhoto from 'public/landing_photo.png'
+import LandingPhoto from 'public/landing_photo.jpg'
 import { useEffect } from 'react'
 
 export default function LandingPage() {
@@ -237,10 +236,10 @@ export default function LandingPage() {
         title={`47% of businesses struggle with content creation, costing them $5000+ annually in outsourcing fees`}
         painPoints={painPoints}
       />
-      <LandingHowItWorks
+      {/* <LandingHowItWorks
         title={`Your Content Creation Journey Made Simple`}
         steps={steps}
-      />
+      /> */}
       <LandingFeatures
         id="features"
         title={`Everything You Need to Create Professional Content`}

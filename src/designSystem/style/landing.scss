@@ -18,3 +18,15 @@
   mask-repeat: no-repeat;
   mask-size: contain;
 }
+
+/* Hide scrollbar for all browsers */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  /* WebKit */
+  width: 0;
+  height: 0;
+}

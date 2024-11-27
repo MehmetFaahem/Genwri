@@ -4,15 +4,15 @@ import { useUserContext } from '@/core/context'
 import { Api } from '@/core/trpc'
 import { PageLayout } from '@/designSystem'
 import {
+  FileSyncOutlined,
   FileTextOutlined,
-  HistoryOutlined,
   PictureOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons'
-import { Button, Card, Col, Divider, Row, Typography } from 'antd'
+import { Card, Col, Row, Typography } from 'antd'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from 'notistack'
 
-import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
 const { Title, Text } = Typography
@@ -59,11 +59,13 @@ export default function HomePage() {
   return (
     <PageLayout layout="narrow">
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
-        <Title level={1}>Welcome to Content Creation Hub</Title>
-        <Text>
+        <h1 className="text-white text-4xl md:text-7xl font-bold">
+          Welcome to Content Creation Hub
+        </h1>
+        <p className="text-white text-xl md:text-2xl mt-4">
           Generate stunning AI images or write compelling articles with our
           creative tools
-        </Text>
+        </p>
       </div>
 
       {/* Main Features */}
@@ -72,14 +74,20 @@ export default function HomePage() {
           <Card
             hoverable
             onClick={() => navigateToFeature('/image-generation')}
-            style={{ height: '100%' }}
+            style={{
+              height: '100%',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            }}
           >
             <PictureOutlined
               style={{ fontSize: 48, color: '#1890ff', marginBottom: 16 }}
             />
-            <Title level={3}>AI Image Generation</Title>
-            <Text>
-              Create unique images from text descriptions using advanced AI
+            <Title level={3} style={{ color: 'white' }}>
+              AI Image Generation
+            </Title>
+            <Text style={{ color: 'white' }}>
+              Create unique images from text descriptions using advanced AI. An
+              image will be generated for each prompt.
             </Text>
           </Card>
         </Col>
@@ -87,19 +95,69 @@ export default function HomePage() {
           <Card
             hoverable
             onClick={() => navigateToFeature('/article-writing')}
-            style={{ height: '100%' }}
+            style={{
+              height: '100%',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            }}
           >
             <FileTextOutlined
-              style={{ fontSize: 48, color: '#52c41a', marginBottom: 16 }}
+              style={{ fontSize: 48, color: '#1890ff', marginBottom: 16 }}
             />
-            <Title level={3}>Article Writing</Title>
-            <Text>Generate well-structured articles with AI assistance</Text>
+            <Title level={3} style={{ color: 'white' }}>
+              AI SEO Article Writing
+            </Title>
+            <Text style={{ color: 'white' }}>
+              Generate well-structured articles with AI assistance. An SEO-
+              optimized article will be generated for each prompt.
+            </Text>
+          </Card>
+        </Col>
+        <Col xs={24} sm={12}>
+          <Card
+            hoverable
+            onClick={() => navigateToFeature('/article-writing')}
+            style={{
+              height: '100%',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            }}
+          >
+            <FileSyncOutlined
+              style={{ fontSize: 48, color: '#1890ff', marginBottom: 16 }}
+            />
+            <Title level={3} style={{ color: 'white' }}>
+              AI Document Writing
+            </Title>
+            <Text style={{ color: 'white' }}>
+              Generate well-structured documents with AI assistance. A document
+              will be generated for each prompt.
+            </Text>
+          </Card>
+        </Col>
+        <Col xs={24} sm={12}>
+          <Card
+            hoverable
+            onClick={() => navigateToFeature('/article-writing')}
+            style={{
+              height: '100%',
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            }}
+          >
+            <ProfileOutlined
+              style={{ fontSize: 48, color: '#1890ff', marginBottom: 16 }}
+            />
+            <Title level={3} style={{ color: 'white' }}>
+              AI Script Writing
+            </Title>
+            <Text style={{ color: 'white' }}>
+              Generate well-structured scripts with AI assistance. A script will
+              be generated for each prompt.
+            </Text>
           </Card>
         </Col>
       </Row>
 
       {/* Recent Content */}
-      <div style={{ marginTop: 48, marginBottom: 48 }}>
+      {/* <div style={{ marginTop: 48, marginBottom: 48 }}>
         <Title
           level={2}
           style={{
@@ -199,7 +257,7 @@ export default function HomePage() {
             </Col>
           )}
         </Row>
-      </div>
+      </div> */}
 
       {/* Quick-start Templates */}
       {/* <div style={{ marginTop: 48 }}>
