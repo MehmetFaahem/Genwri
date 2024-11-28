@@ -7,7 +7,7 @@ import { Utility } from '@/core/helpers/utility'
 import { Api } from '@/core/trpc'
 import { AppHeader } from '@/designSystem/ui/AppHeader'
 import { User } from '@prisma/client'
-import { Button, Flex, Form, Input, Typography } from 'antd'
+import { Button, Flex, Form, Typography } from 'antd'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSnackbar } from 'notistack'
@@ -80,56 +80,67 @@ export default function RegisterPage() {
         vertical
         style={{
           width: '340px',
-          paddingBottom: '100px',
-          paddingTop: '100px',
-          backgroundColor: 'rgba(255, 255, 255, 0.5)',
-          backdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
           borderRadius: '10px',
           zIndex: 10,
           boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
-
           padding: '40px',
         }}
         gap="middle"
       >
-        <AppHeader description="Welcome!" />
+        <AppHeader description="" />
 
         <Form
           form={form}
           onFinish={handleSubmit}
           layout="vertical"
-          autoComplete="off"
           requiredMark={false}
+          style={{ color: '#ffffff' }}
         >
           <Form.Item
-            label="Email"
+            label={<span style={{ color: '#ffffff' }}>Email</span>}
             name="email"
             rules={[{ required: true, message: 'Email is required' }]}
           >
-            <Input type="email" placeholder="Your email" autoComplete="email" />
-          </Form.Item>
-          <Form.Item
-            name="name"
-            rules={[{ required: true, message: 'Name is required' }]}
-            label="Name"
-          >
-            <Input placeholder="Your name" />
+            <input
+              type="email"
+              placeholder="Your email"
+              autoComplete="email"
+              className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+            />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label={<span style={{ color: '#ffffff' }}>Name</span>}
+            name="name"
+            rules={[{ required: true, message: 'Name is required' }]}
+          >
+            <input
+              type="text"
+              placeholder="Your name"
+              className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={<span style={{ color: '#ffffff' }}>Password</span>}
             name="password"
             rules={[{ required: true, message: 'Password is required' }]}
           >
-            <Input.Password
+            <input
               type="password"
               placeholder="Your password"
               autoComplete="current-password"
+              className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
             />
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={isLoading} block>
+            <Button
+              htmlType="submit"
+              loading={isLoading}
+              className="w-full mt-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
               Register
             </Button>
           </Form.Item>
@@ -137,12 +148,16 @@ export default function RegisterPage() {
 
         <Button
           ghost
-          style={{ border: 'none' }}
           onClick={() => router.push('/login')}
+          className="w-full bg-transparent text-white border border-gray-600 rounded-lg px-4 py-2"
         >
           <Flex gap={'small'} justify="center">
-            <Typography.Text type="secondary">Have an account?</Typography.Text>{' '}
-            <Typography.Text>Sign in</Typography.Text>
+            <Typography.Text style={{ color: '#ffffff' }}>
+              Have an account?
+            </Typography.Text>{' '}
+            <Typography.Text style={{ color: '#ffffff' }}>
+              Sign in
+            </Typography.Text>
           </Flex>
         </Button>
       </Flex>

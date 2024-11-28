@@ -1,5 +1,4 @@
 import { HTMLAttributes } from 'react'
-import { LandingFooter } from './LandingFooter'
 
 interface Props extends HTMLAttributes<HTMLElement> {
   navItems: {
@@ -21,7 +20,7 @@ export const LandingContainer: React.FC<Props> = ({
         {/* <LandingNavBar navItems={navItems} /> */}
         {children}
 
-        <LandingFooter />
+        {/* <LandingFooter /> */}
       </div>
     </main>
   )

@@ -20,10 +20,14 @@ export const AppHeader: React.FC<Props> = ({
       </Flex>
 
       <Flex vertical align="center">
-        <Title level={3} style={{ margin: 0 }}>
+        <Title level={3} style={{ margin: 0, color: '#ffffff' }}>
           {title}
         </Title>
-        {description && <Text type="secondary">{description}</Text>}
+        {description && (
+          <Text type="secondary" style={{ color: '#ffffff' }}>
+            {description}
+          </Text>
+        )}
       </Flex>
     </>
   )

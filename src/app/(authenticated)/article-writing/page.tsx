@@ -185,7 +185,9 @@ export default function ArticleWritingPage() {
     try {
       setIsGenerating(true)
       setSplashVisible(true)
-      const prompt = `Craft an exceptional, ${tone} article on ${topic}, optimized for SEO. Ensure the following keywords are seamlessly integrated throughout the content: ${keywords}. The article should be approximately ${length || 200} words long, well-structured, engaging, and include headings, subheadings, and a strong call-to-action where appropriate. Focus on readability, keyword density, and delivering value to the target audience.`
+      const prompt = `Craft an exceptional, ${tone} article on ${topic}, optimized for SEO. Ensure the following keywords are seamlessly integrated throughout the content: ${keywords}. The article should be approximately ${
+        length >= 100 ? length : 200
+      } words long, well-structured, engaging, and include headings, subheadings, and a strong call-to-action where appropriate. Focus on readability, keyword density, and delivering value to the target audience.`
 
       const response = await generateText.mutateAsync({ prompt })
       console.log(response)
@@ -305,6 +307,7 @@ export default function ArticleWritingPage() {
                   onChange={e => setLength(parseInt(e.target.value))}
                   className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
                   placeholder="Enter article length (Default: 200)"
+                  min={1}
                 />
               </Col>
               <Col span={12}>
@@ -387,7 +390,7 @@ export default function ArticleWritingPage() {
                   }}
                 >
                   <Text strong style={{ color: '#ffffff', fontSize: '1.2rem' }}>
-                    {article.title}
+                    {article.title.slice(0, 50)}
                   </Text>
                   <br />
                   <Text type="secondary" style={{ color: '#ffffff80' }}>

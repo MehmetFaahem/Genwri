@@ -1,3 +1,4 @@
+import { useUserContext } from '@/core/context'
 import { HTMLAttributes, ReactNode } from 'react'
 import { FiArrowRight } from 'react-icons/fi'
 import Typewriter from 'typewriter-effect'
@@ -21,6 +22,8 @@ export const LandingHero: React.FC<Props> = ({
   className,
   ...props
 }) => {
+  const { isLoggedIn } = useUserContext()
+
   return (
     <section
       className={DesignSystemUtility.buildClassNames(
@@ -54,12 +57,12 @@ export const LandingHero: React.FC<Props> = ({
           {subtitle}
         </p>
         <LandingButton
-          href={'/login'}
+          href={isLoggedIn ? '/home' : '/login'}
           className="bg-white w-fit hover:text-black text-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-blue-50 transition duration-300 flex items-center mx-auto"
           rel="noopener"
           size="lg"
         >
-          {buttonText}
+          {isLoggedIn ? 'Dashboard' : buttonText}
           <FiArrowRight className="ml-2" />
         </LandingButton>
         {/* {socialProof && <div className="mt-6">{socialProof}</div>} */}

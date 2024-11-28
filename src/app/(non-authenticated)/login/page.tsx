@@ -7,7 +7,7 @@ import {
 } from '@/core/helpers/preventer'
 import { BackgroundImage } from '@/designSystem/components/BackgroundImage'
 import { AppHeader } from '@/designSystem/ui/AppHeader'
-import { Button, Flex, Form, Input, Typography } from 'antd'
+import { Button, Flex, Form, Typography } from 'antd'
 import { getProviders, signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSnackbar } from 'notistack'
@@ -115,22 +115,20 @@ export default function LoginPage() {
         vertical
         style={{
           width: '340px',
-          paddingBottom: '100px',
-          paddingTop: '100px',
-          backgroundColor: 'rgba(255, 255, 255, 0.5)',
-          backdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
           borderRadius: '10px',
           zIndex: 10,
           boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
-
           padding: '40px',
         }}
         gap="middle"
       >
-        <AppHeader description="Welcome!" />
+        <AppHeader description="" />
 
         {errorKey && (
-          <Typography.Text type="danger">{errorMessage}</Typography.Text>
+          <p className="text-center text-white mb-4 animate-pulse">
+            {errorMessage}
+          </p>
         )}
 
         <Form
@@ -138,24 +136,31 @@ export default function LoginPage() {
           onFinish={handleSubmit}
           layout="vertical"
           requiredMark={false}
+          style={{ color: '#ffffff' }}
         >
           <Form.Item
-            label="Email"
+            label={<span style={{ color: '#ffffff' }}>Email</span>}
             name="email"
             rules={[{ required: true, message: 'Email is required' }]}
           >
-            <Input type="email" placeholder="Your email" autoComplete="email" />
+            <input
+              type="email"
+              placeholder="Your email"
+              autoComplete="email"
+              className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+            />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label={<span style={{ color: '#ffffff' }}>Password</span>}
             name="password"
             rules={[{ required: true, message: 'Password is required' }]}
           >
-            <Input.Password
+            <input
               type="password"
               placeholder="Your password"
               autoComplete="current-password"
+              className="w-full bg-gray-700/50 text-white border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
             />
           </Form.Item>
 
@@ -164,7 +169,7 @@ export default function LoginPage() {
               <Button
                 type="link"
                 onClick={() => router.push('/reset-password')}
-                style={{ padding: 0, margin: 0 }}
+                style={{ padding: 0, margin: 0, color: '#ffffff' }}
               >
                 Forgot password?
               </Button>
@@ -172,7 +177,11 @@ export default function LoginPage() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block loading={isLoading}>
+            <Button
+              htmlType="submit"
+              loading={isLoading}
+              className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
               Sign in
             </Button>
           </Form.Item>
@@ -181,7 +190,7 @@ export default function LoginPage() {
         {providers.length > 1 && (
           <>
             <Flex justify="center">
-              <Typography.Text type="secondary">Or</Typography.Text>
+              <Typography.Text style={{ color: '#ffffff' }}>Or</Typography.Text>
             </Flex>
 
             <Flex
@@ -201,12 +210,16 @@ export default function LoginPage() {
 
         <Button
           ghost
-          style={{ border: 'none' }}
           onClick={() => router.push('/register')}
+          className="w-full bg-transparent text-white border border-gray-600 rounded-lg px-4 py-2"
         >
           <Flex gap={'small'} justify="center">
-            <Typography.Text type="secondary">No account?</Typography.Text>{' '}
-            <Typography.Text>Sign up</Typography.Text>
+            <Typography.Text style={{ color: '#ffffff' }}>
+              No account?
+            </Typography.Text>{' '}
+            <Typography.Text style={{ color: '#ffffff' }}>
+              Sign up
+            </Typography.Text>
           </Flex>
         </Button>
       </Flex>

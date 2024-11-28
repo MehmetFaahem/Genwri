@@ -16,7 +16,11 @@ export const AuthenticationRouter = Trpc.createRouter({
       z.object({
         email: z.string().email(),
         name: z.string(),
-        pictureUrl: z.string().optional(),
+        pictureUrl: z
+          .string()
+          .default(
+            'https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_960_720.png',
+          ),
         password: z.string(),
         globalRole: z
           .string()

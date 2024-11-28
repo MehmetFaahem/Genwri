@@ -1,3 +1,9 @@
+import {
+  GithubFilled,
+  LinkedinFilled,
+  TwitterCircleFilled,
+} from '@ant-design/icons'
+import Link from 'next/link'
 import { HTMLAttributes } from 'react'
 import { DesignSystemUtility } from '../helpers/utility'
 import LandingButton from './LandingButton'
@@ -8,6 +14,24 @@ interface Props extends HTMLAttributes<HTMLElement> {
   buttonText?: string
   buttonLink?: string
 }
+
+const socials = [
+  {
+    name: 'Youtube',
+    icon: <TwitterCircleFilled />,
+    link: 'https://www.youtube.com/@justcodethat',
+  },
+  {
+    name: 'LinkedIn',
+    icon: <LinkedinFilled />,
+    link: 'https://www.linkedin.com/in/muhammad-faahem/',
+  },
+  {
+    name: 'Github',
+    icon: <GithubFilled />,
+    link: 'https://github.com/MehmetFaahem',
+  },
+]
 
 export const LandingCTA: React.FC<Props> = ({
   title,
@@ -32,6 +56,18 @@ export const LandingCTA: React.FC<Props> = ({
             <LandingButton href={buttonLink ?? '/register'} size="lg">
               {buttonText}
             </LandingButton>
+          </div>
+          <div className="flex justify-center gap-4  flex-row text-white mt-10">
+            {socials.map(link => (
+              <Link
+                key={link.name}
+                className="transition-colors  text-xs sm:text-sm"
+                href={link.link}
+              >
+                <span className="mr-2">{link.icon}</span>
+                {link.name}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

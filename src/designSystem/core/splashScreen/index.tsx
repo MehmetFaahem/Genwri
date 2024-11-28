@@ -1,6 +1,9 @@
+import { BackgroundImage } from '@/designSystem/components/BackgroundImage'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Layout, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
+
+import pictureUrl from '/public/bg.jpg'
 
 export const MrbSplashScreen: React.FC = () => {
   const [isPageInitialised, setPageInitialised] = useState(false)
@@ -26,7 +29,12 @@ export const MrbSplashScreen: React.FC = () => {
         justifyContent: 'center',
       }}
     >
-      <Spin indicator={<LoadingOutlined spin />} size="large" />
+      <BackgroundImage src={pictureUrl} />
+      <Spin
+        indicator={<LoadingOutlined spin />}
+        size="large"
+        style={{ color: '#ffffff' }}
+      />
     </Layout>
   )
 }
