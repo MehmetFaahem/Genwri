@@ -27,7 +27,7 @@ export const LandingHero: React.FC<Props> = ({
   return (
     <section
       className={DesignSystemUtility.buildClassNames(
-        'relative h-screen flex items-center justify-center text-white px-4',
+        'relative h-[calc(100vh-80px)] md:h-screen flex items-center justify-center text-white px-4',
         className,
       )}
       {...props}
@@ -36,7 +36,8 @@ export const LandingHero: React.FC<Props> = ({
         <img
           src={pictureUrl}
           alt="Hero Background"
-          className="w-full h-full object-cover opacity-100 blur-sm brightness-50"
+          className="w-full h-full object-cover opacity-100 blur-md brightness-50"
+          style={{ scale: 1.1 }}
         />
       </div>
       <div className="relative z-10 max-w-6xl mx-auto text-center">

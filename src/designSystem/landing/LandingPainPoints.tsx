@@ -1,4 +1,3 @@
-import { ArrowDownOutlined } from '@ant-design/icons'
 import { HTMLAttributes } from 'react'
 import { DesignSystemUtility } from '../helpers/utility'
 import RightArrow from './images/rightArrow.svg'
@@ -39,7 +38,7 @@ export const LandingPainPoints: React.FC<Props> = ({
             <div key={idx}>
               <div className="flex flex-col items-center">
                 <span className="text-5xl mb-4">{painPoint.emoji}</span>
-                <span className="font-semibold text-lg text-gray-900 dark:text-slate-200">
+                <span className="font-semibold text-lg text-gray-900 dark:text-slate-200 px-6">
                   {painPoint.title}
                 </span>
               </div>
@@ -56,13 +55,13 @@ export const LandingPainPoints: React.FC<Props> = ({
             </div>
           ))}
         </div>
-        <div className="text-center pt-20">
+        {/* <div className="text-center pt-20">
           <div className="flex flex-col items-center">
             <p className="text-slate-600 dark:text-slate-400 text-lg">
               <ArrowDownOutlined /> there is an easier way
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   )
