@@ -45,7 +45,7 @@ export default function LoginPage() {
   useEffect(() => {
     fetchProviders()
 
-    if (Configuration.isDevelopment()) {
+    if (!Configuration.isDevelopment()) {
       form.setFieldValue('email', 'demo@gmail.com')
       form.setFieldValue('password', 'demo1234')
     }
