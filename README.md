@@ -1,65 +1,109 @@
-# 100% Free Image and Article Generator AI
+# Geno.AI - AI-Powered Content Creation Platform
 
 ## Overview
 
-This project is an AI-powered tool that generates images and articles for free. It leverages advanced machine learning algorithms to create high-quality content quickly and efficiently.
+Geno.AI is a powerful content creation platform that leverages artificial intelligence to generate high-quality images and articles. Built with Next.js 14, TypeScript, and modern web technologies, it provides a seamless experience for creating professional content quickly and efficiently.
+
+## Prerequisites
+
+- Node.js 18.x or higher
+- PostgreSQL 14.x or higher
+- OpenAI API key or Cloudflare Workers API key
+- Resend API key (for email)
+- AWS S3 bucket (for image storage)
 
 ## Features
 
-- **Image Generation**: Create stunning images based on user input.
-- **Article Generation**: Generate well-written articles on a variety of topics.
-- **User-Friendly Interface**: Easy to use interface for seamless content creation.
-- **Free to Use**: No cost involved in using the tool.
+- **AI Image Generation**: Create stunning, unique images from text descriptions
+- **AI Article Generation**: Generate SEO-optimized articles on any topic
+- **Modern UI**: Clean, responsive interface built with Tailwind CSS and Ant Design
+- **Authentication**: Secure user authentication system
+- **Database Integration**: Prisma ORM with PostgreSQL database
+- **API Integration**: OpenAI integration for AI capabilities
 
-## Installation
+## Environment Setup
 
-To install and run the project locally, follow these steps:
+1. Create a `.env` (follow .env.template) file in the root directory with the following variables:
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/image-article-generator-ai.git
+   ```env
+   # Database
+   SERVER_DATABASE_URL="postgresql://user:password@localhost:5432/genodb"
+
+   # Authentication
+   NEXTAUTH_SECRET="your-secret-key"
+   NEXTAUTH_URL="http://localhost:3000"
+
+   # OpenAI
+   SERVER_OPENAI_API_KEY="your-openai-key"
+
+   # Cloudflare
+   SERVER_CLOUDFLARE_API_KEY=your-cloudflare-api-key
+   SERVER_CLOUDFLARE_ACCOUNT_ID=your-cloudflare-account-id
+
+   # Email
+   SERVER_EMAIL_RESEND_API_KEY=re_JLMbpb1r_AKaTGUcRmUVoNLrtrLbC7B71
+   SERVER_EMAIL_SENDER_ADDRESS=raquel.dickinson66@ethereal.email
+   SERVER_EMAIL_SENDER_PASSWORD=ctGKdb2gzWYpessyGp
+   SERVER_EMAIL_HOST=smtp.ethereal.email
+   SERVER_EMAIL_PORT=587
+
+   # AWS
+   AWS_ACCESS_KEY_ID="your-aws-key"
+   AWS_SECRET_ACCESS_KEY="your-aws-secret"
+   AWS_REGION="your-region"
+   AWS_BUCKET_NAME="your-bucket"
+
    ```
-2. Navigate to the project directory:
-   ```bash
-   cd image-article-generator-ai
-   ```
-3. Install the dependencies:
+
+## Installation & Setup
+
+1. Install dependencies:
+
    ```bash
    npm install
    ```
-4. Start the application:
+
+2. Initialize and migrate the database:
+
    ```bash
-   npm start
+   npm run crud:sync
+   npm run database:sync:dev
    ```
 
-## Usage
+3. Initialize and migrate the database:
 
-1. Open your web browser and go to `http://localhost:3000`.
-2. Follow the on-screen instructions to generate images or articles.
-
-## Contributing
-
-We welcome contributions to improve the project. To contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch:
    ```bash
-   git checkout -b feature-branch
+   npm run database:migration:generate
+   npx prisma generate
+   npx prisma migrate dev
    ```
-3. Make your changes and commit them:
+
+4. Seed the database (optional):
+
    ```bash
-   git commit -m "Description of changes"
+   npx prisma db seed
    ```
-4. Push to the branch:
+
+5. Start the development server:
    ```bash
-   git push origin feature-branch
+   npm run dev
    ```
-5. Create a pull request.
 
-## License
+## Available Scripts
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+- `npm run dev`: Start development server
+- `npm run build`: Build production version
+- `npm start`: Start production server
+- `npm run lint`: Run ESLint
+- `npm run format`: Format code with Prettier
+- `npm test`: Run tests
+- `npm run migrate`: Run database migrations
+- `npm run studio`: Open Prisma Studio
 
-## Contact
+### Creating Migrations
 
-For any questions or feedback, please contact us at support@image-article-generator-ai.com.
+1. Make changes to your Prisma schema in `prisma/schema.prisma`
+2. Create a migration:
+   ```bash
+   npx prisma migrate dev --name description_of_changes
+   ```
