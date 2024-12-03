@@ -109,7 +109,7 @@ export default function ImageGenerationPage() {
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `generated-image-from-genwri-${Date.now()}.png`
+      a.download = `generated-image-from-genoai-${Date.now()}.png`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)

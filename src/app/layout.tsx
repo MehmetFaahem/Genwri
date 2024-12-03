@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import { ClientLayout } from './client.layout'
 
 export const metadata: Metadata = {
-  title: 'Genwri',
-  description: 'Genwri',
+  title: 'Geno.AI',
+  description: 'Geno.AI',
 }
 
 export default function RootLayout(props) {

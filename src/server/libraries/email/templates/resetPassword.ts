@@ -14,6 +14,6 @@ export const TemplateResetPassword = `
 </Card.Body>
 
 <Card.Footer>
-  <p>Sent by Genwri</p>
+  <p>Sent by Geno.AI</p>
 </Card.Footer>
   `.trim()

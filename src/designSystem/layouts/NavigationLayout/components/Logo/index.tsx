@@ -1,5 +1,6 @@
 import { Flex, Typography } from 'antd'
 import { useRouter } from 'next/navigation'
+import MainLogo from 'public/Logo.png'
 import React, { ImgHTMLAttributes } from 'react'
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
@@ -21,7 +22,7 @@ export const Logo: React.FC<Props> = ({
   return (
     <Flex align="center" gap={10}>
       <img
-        src="https://marblism-dashboard-api--production-public.s3.us-west-1.amazonaws.com/kGR4VC-genwri-unXM"
+        src={MainLogo.src}
         {...props}
         alt="Logo"
         height={height}
@@ -36,7 +37,7 @@ export const Logo: React.FC<Props> = ({
       />
       {isLabel && (
         <Typography.Title level={4} style={{ margin: '0px' }}>
-          Genwri
+          Geno.AI
         </Typography.Title>
       )}
     </Flex>

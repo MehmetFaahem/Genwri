@@ -115,7 +115,7 @@ export default function HomePage() {
         <Col xs={24} sm={12}>
           <Card
             hoverable
-            onClick={() => navigateToFeature('/article-writing')}
+            onClick={() => navigateToFeature('/document-writing')}
             style={{
               height: '100%',
               backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -136,7 +136,7 @@ export default function HomePage() {
         <Col xs={24} sm={12}>
           <Card
             hoverable
-            onClick={() => navigateToFeature('/article-writing')}
+            onClick={() => navigateToFeature('/script-writing')}
             style={{
               height: '100%',
               backgroundColor: 'rgba(255, 255, 255, 0.2)',

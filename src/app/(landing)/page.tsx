@@ -61,19 +61,19 @@ export default function LandingPage() {
     {
       name: `Sarah Chen`,
       designation: `Digital Marketing Manager`,
-      content: `Genwri has transformed our content strategy. We're now producing twice the content in half the time, and our engagement metrics have never been better.`,
+      content: `Geno.AI has transformed our content strategy. We're now producing twice the content in half the time, and our engagement metrics have never been better.`,
       avatar: 'https://randomuser.me/api/portraits/women/6.jpg',
     },
     {
       name: `James Wilson`,
       designation: `Small Business Owner`,
-      content: `As a solo entrepreneur, Genwri has been a game-changer. I can maintain a professional online presence without breaking the bank.`,
+      content: `As a solo entrepreneur, Geno.AI has been a game-changer. I can maintain a professional online presence without breaking the bank.`,
       avatar: 'https://randomuser.me/api/portraits/men/7.jpg',
     },
     {
       name: `Maria Rodriguez`,
       designation: `Content Creator`,
-      content: `The quality of AI-generated images is incredible. I've cancelled all my stock photo subscriptions since discovering Genwri.`,
+      content: `The quality of AI-generated images is incredible. I've cancelled all my stock photo subscriptions since discovering Geno.AI.`,
       avatar: 'https://randomuser.me/api/portraits/women/27.jpg',
     },
   ]
@@ -140,11 +140,11 @@ export default function LandingPage() {
     },
     {
       question: `Can I use the generated content commercially?`,
-      answer: `Absolutely! All content generated through Genwri is yours to use for any purpose, including commercial use.`,
+      answer: `Absolutely! All content generated through Geno.AI is yours to use for any purpose, including commercial use.`,
     },
     {
-      question: `What makes Genwri different from other AI content tools?`,
-      answer: `Genwri uniquely combines both image and text generation in one platform, offering unlimited creation capabilities at an unbeatable price point.`,
+      question: `What makes Geno.AI different from other AI content tools?`,
+      answer: `Geno.AI uniquely combines both image and text generation in one platform, offering unlimited creation capabilities at an unbeatable price point.`,
     },
   ]
 
@@ -227,7 +227,7 @@ export default function LandingPage() {
           <LandingSocialRating
             avatarItems={avatarItems}
             numberOfUsers={1000}
-            suffixText={`content creators trust Genwri`}
+            suffixText={`content creators trust Geno.AI`}
           />
         }
       />
@@ -248,7 +248,7 @@ export default function LandingPage() {
       />
       <LandingTestimonials
         title={`Join Thousands of Satisfied Creators`}
-        subtitle={`See how Genwri is helping businesses save time and money while creating better content`}
+        subtitle={`See how Geno.AI is helping businesses save time and money while creating better content`}
         testimonials={testimonials}
       />
       {/* <LandingPricing
@@ -259,13 +259,13 @@ export default function LandingPage() {
       /> */}
       <LandingFAQ
         id="faq"
-        title={`Common Questions About Genwri`}
+        title={`Common Questions About Geno.AI`}
         subtitle={`Everything you need to know about our AI-powered content creation platform`}
         questionAnswers={questionAnswers}
       />
       <LandingCTA
         title={`Transform Your Content Creation Today`}
-        subtitle={`Join thousands of creators who are already saving time and money with Genwri`}
+        subtitle={`Join thousands of creators who are already saving time and money with Geno.AI`}
         buttonText={`Start Creating For Free`}
         buttonLink={`/register`}
       />

@@ -79,7 +79,12 @@ export default function ResetPasswordPage() {
 
         {isSuccess && (
           <Alert
-            style={{ textAlign: 'center' }}
+            style={{
+              textAlign: 'center',
+              backgroundColor: 'transparent',
+              color: '#ffffff',
+              borderColor: '#ffffff',
+            }}
             message={`We sent an email to ${email} with a link to reset your password`}
             type="success"
           />

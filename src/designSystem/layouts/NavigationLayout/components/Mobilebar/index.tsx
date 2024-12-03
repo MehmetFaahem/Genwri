@@ -2,7 +2,7 @@ import { useUserContext } from '@/core/context'
 import { Utility } from '@/core/helpers/utility'
 import { useDesignSystem } from '@/designSystem/provider'
 import { MenuOutlined } from '@ant-design/icons'
-import { Avatar, Flex, Menu, Tag } from 'antd'
+import { Avatar, ConfigProvider, Dropdown, Flex, Tag } from 'antd'
 import { useRouter } from 'next/navigation'
 import { NavigationItem } from '../../types'
 
@@ -42,7 +42,7 @@ export const Mobilebar: React.FC<Props> = ({ keySelected, items }) => {
       <Flex
         align="center"
         justify="space-between"
-        className="px-2"
+        className="p-2"
         onContextMenu={preventContextMenu}
       >
         <Flex>
@@ -56,13 +56,38 @@ export const Mobilebar: React.FC<Props> = ({ keySelected, items }) => {
             </Tag>
           )}
 
-          <Menu
-            mode="horizontal"
-            items={items}
-            selectedKeys={[keySelected]}
-            style={{ width: 46 }}
-            overflowedIndicator={<MenuOutlined />}
-          />
+          <ConfigProvider
+            theme={{
+              token: { colorPrimary: '#000000' },
+              components: {
+                Dropdown: {
+                  colorText: '#000000',
+                },
+              },
+            }}
+          >
+            <Dropdown
+              menu={{
+                items: items.map(item => ({
+                  ...item,
+                  className:
+                    item.key === keySelected
+                      ? 'ant-dropdown-menu-item-selected'
+                      : '',
+                })),
+              }}
+              trigger={['click']}
+            >
+              <MenuOutlined
+                style={{
+                  fontSize: '20px',
+                  padding: '0 12px',
+                  cursor: 'pointer',
+                  color: '#ffffff',
+                }}
+              />
+            </Dropdown>
+          </ConfigProvider>
           {user && (
             <Flex>
               <Avatar

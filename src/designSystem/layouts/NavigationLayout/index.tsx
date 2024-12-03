@@ -56,6 +56,20 @@ export const NavigationLayout: React.FC<Props> = ({ children }) => {
 
       onClick: () => goTo('/article-writing'),
     },
+    {
+      key: '/document-writing',
+      label: 'Document Writing',
+      position: 'topbar',
+
+      onClick: () => goTo('/document-writing'),
+    },
+    {
+      key: '/script-writing',
+      label: 'Script Writing',
+      position: 'topbar',
+
+      onClick: () => goTo('/script-writing'),
+    },
   ]
 
   const itemsVisible = items

@@ -10,7 +10,7 @@ type Props = {
 }
 
 export const AppHeader: React.FC<Props> = ({
-  title = 'Genwri',
+  title = 'Geno.AI',
   description,
 }) => {
   return (

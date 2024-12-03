@@ -1,6 +1,6 @@
 export const TemplateInvitationToOrganization = `
 <Card.Header>
-  <h2>Welcome to Genwri</h2>
+  <h2>Welcome to Geno.AI</h2>
   <hr />
 </Card.Header>
 
@@ -12,6 +12,6 @@ export const TemplateInvitationToOrganization = `
 </Card.Body>
 
 <Card.Footer>
-  <p>Sent by Genwri</p>
+  <p>Sent by Geno.AI</p>
 </Card.Footer>
   `.trim()
