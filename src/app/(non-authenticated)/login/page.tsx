@@ -1,6 +1,5 @@
 'use client'
 
-import { Configuration } from '@/core/configuration'
 import {
   preventContextMenu,
   preventKeyboardEvent,
@@ -43,12 +42,15 @@ export default function LoginPage() {
   }[errorKey ?? 'default']
 
   useEffect(() => {
-    fetchProviders()
+    // fetchProviders()
 
-    if (!Configuration.isDevelopment()) {
-      form.setFieldValue('email', 'demo@gmail.com')
-      form.setFieldValue('password', 'demo1234')
-    }
+    // if (!Configuration.isDevelopment()) {
+    //   form.setFieldValue('email', 'demo@gmail.com')
+    //   form.setFieldValue('password', 'demo1234')
+    // }
+
+    form.setFieldValue('email', 'demo@gmail.com')
+    form.setFieldValue('password', 'demo1234')
   }, [])
 
   const fetchProviders = async () => {
@@ -187,7 +189,7 @@ export default function LoginPage() {
           </Form.Item>
         </Form>
 
-        {providers.length > 1 && (
+        {/* {providers.length > 1 && (
           <>
             <Flex justify="center">
               <Typography.Text style={{ color: '#ffffff' }}>Or</Typography.Text>
@@ -206,7 +208,7 @@ export default function LoginPage() {
               ))}
             </Flex>
           </>
-        )}
+        )} */}
 
         <Button
           ghost
