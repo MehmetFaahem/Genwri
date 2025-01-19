@@ -39,6 +39,7 @@ export default function ImageGenerationPage() {
     prompt: string
     url: string
   } | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const handleZoomChange = useCallback(
     (shouldZoom: boolean, imageId: string) => {
@@ -51,7 +52,11 @@ export default function ImageGenerationPage() {
   )
 
   // Fetch user's image history
-  const { data: images, refetch: refetchImages } = Api.image.findMany.useQuery({
+  const {
+    data: images,
+    refetch: refetchImages,
+    isLoading,
+  } = Api.image.findMany.useQuery({
     where: { userId: user?.id },
     orderBy: { createdAt: 'desc' },
   })
@@ -217,74 +222,93 @@ export default function ImageGenerationPage() {
               <HistoryOutlined /> Generation History
             </Title>
             <div className="flex flex-wrap gap-4">
-              {images?.map((image: ImageType) => (
-                <div
-                  key={image.id}
-                  className="cursor-pointer p-4 text-white rounded-lg border border-gray-600 bg-gray-700/50 min-h-[330px] h-auto w-full md:w-[calc(50%-16px)]"
-                >
-                  <ControlledZoom
-                    isZoomed={zoomedImages[image.id] || false}
-                    onZoomChange={shouldZoom =>
-                      handleZoomChange(shouldZoom, image.id)
-                    }
-                  >
-                    <div className="w-full h-full flex justify-center items-center relative">
-                      <img
-                        alt={image.prompt}
-                        src={image.imageUrl}
-                        style={{
-                          height: '200px',
-                          objectFit: 'cover',
-                          width: '100%',
-                        }}
-                      />
-                      <EyeOutlined
-                        size={44}
-                        style={{
-                          color: '#ffffff',
-                          position: 'absolute',
-                          top: '10px',
-                          right: '10px',
-                          cursor: 'pointer',
-                          backgroundColor: '#00000080',
-                          padding: '10px',
-                          borderRadius: '50%',
-                        }}
-                        onClick={() => handleZoomChange(true, image.id)}
-                      />
-                    </div>
-                  </ControlledZoom>
-                  <p className="mt-2">{image.prompt.slice(0, 50)}...</p>
+              {isLoading
+                ? Array(4)
+                    .fill(null)
+                    .map((_, index) => (
+                      <div
+                        key={`skeleton-${index}`}
+                        className="cursor-pointer p-4 text-white rounded-lg border border-gray-600 bg-gray-700/50 min-h-[330px] h-auto w-full md:w-[calc(50%-16px)]"
+                      >
+                        <div className="animate-pulse">
+                          <div className="w-full h-[200px] bg-gray-600 rounded-lg mb-4"></div>
+                          <div className="h-4 bg-gray-600 rounded w-3/4 mb-2"></div>
+                          <div className="h-4 bg-gray-600 rounded w-1/2"></div>
+                          <div className="mt-5 flex justify-between">
+                            <div className="h-8 bg-gray-600 rounded w-24"></div>
+                            <div className="h-8 bg-gray-600 rounded w-24"></div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                : images?.map((image: ImageType) => (
+                    <div
+                      key={image.id}
+                      className="cursor-pointer p-4 text-white rounded-lg border border-gray-600 bg-gray-700/50 min-h-[330px] h-auto w-full md:w-[calc(50%-16px)]"
+                    >
+                      <ControlledZoom
+                        isZoomed={zoomedImages[image.id] || false}
+                        onZoomChange={shouldZoom =>
+                          handleZoomChange(shouldZoom, image.id)
+                        }
+                      >
+                        <div className="w-full h-full flex justify-center items-center relative">
+                          <img
+                            alt={image.prompt}
+                            src={image.imageUrl}
+                            style={{
+                              height: '200px',
+                              objectFit: 'cover',
+                              width: '100%',
+                            }}
+                          />
+                          <EyeOutlined
+                            size={44}
+                            style={{
+                              color: '#ffffff',
+                              position: 'absolute',
+                              top: '10px',
+                              right: '10px',
+                              cursor: 'pointer',
+                              backgroundColor: '#00000080',
+                              padding: '10px',
+                              borderRadius: '50%',
+                            }}
+                            onClick={() => handleZoomChange(true, image.id)}
+                          />
+                        </div>
+                      </ControlledZoom>
+                      <p className="mt-2">{image.prompt.slice(0, 50)}...</p>
 
-                  <p className=" text-gray-400">
-                    {image.style && `Style: ${image.style}`}
-                    <span className="text-gray-400 ml-2">
-                      {image.theme && `Theme: ${image.theme}`}
-                    </span>
-                  </p>
-                  <div className="flex justify-between items-center mt-5">
-                    <button
-                      key="download"
-                      onClick={() => downloadImage(image.imageUrl)}
-                      className="bg-transparent text-white border border-gray-600 rounded-lg px-4 py-2 -mt-2"
-                    >
-                      <span className="flex items-center gap-2">
-                        <DownloadOutlined /> Download
-                      </span>
-                    </button>
-                    <button
-                      onClick={() =>
-                        setSelectedImage({
-                          prompt: image.prompt,
-                          url: image.imageUrl,
-                        })
-                      }
-                    >
-                      <EyeOutlined /> View Prompt
-                    </button>
-                  </div>
-                </div>
-              ))}
+                      <p className=" text-gray-400">
+                        {image.style && `Style: ${image.style}`}
+                        <span className="text-gray-400 ml-2">
+                          {image.theme && `Theme: ${image.theme}`}
+                        </span>
+                      </p>
+                      <div className="flex justify-between items-center mt-5">
+                        <button
+                          key="download"
+                          onClick={() => downloadImage(image.imageUrl)}
+                          className="bg-transparent text-white border border-gray-600 rounded-lg px-4 py-2 -mt-2"
+                        >
+                          <span className="flex items-center gap-2">
+                            <DownloadOutlined /> Download
+                          </span>
+                        </button>
+                        <button
+                          onClick={() =>
+                            setSelectedImage({
+                              prompt: image.prompt,
+                              url: image.imageUrl,
+                            })
+                          }
+                        >
+                          <EyeOutlined /> View Prompt
+                        </button>
+                      </div>
+                    </div>
+                  ))}
               {images?.length === 0 && (
                 <div className="flex flex-col justify-center items-center gap-4 h-full mt-6 w-full">
                   <div className="flex justify-center items-center">

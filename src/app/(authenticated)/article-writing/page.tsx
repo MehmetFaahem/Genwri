@@ -171,7 +171,11 @@ export default function ArticleWritingPage() {
   const [splashVisible, setSplashVisible] = useState(false)
   const [timer, setTimer] = useState(30)
 
-  const { data: articles, refetch } = Api.article.findMany.useQuery({
+  const {
+    data: articles,
+    refetch,
+    isLoading,
+  } = Api.article.findMany.useQuery({
     where: { userId: user?.id },
     orderBy: { createdAt: 'desc' },
   })
@@ -373,31 +377,46 @@ export default function ArticleWritingPage() {
                 color: '#ffffff',
               }}
             >
-              {articles?.map(article => (
-                <div
-                  key={article.id}
-                  style={{
-                    cursor: 'pointer',
-                    padding: '8px',
-                    backgroundColor:
-                      selectedArticle === article.id
-                        ? '#ffffff10'
-                        : 'transparent',
-                    color: '#ffffff',
-                  }}
-                  onClick={() => {
-                    handleSelectArticle(article)
-                  }}
-                >
-                  <Text strong style={{ color: '#ffffff', fontSize: '1.2rem' }}>
-                    {article.title.slice(0, 50)}
-                  </Text>
-                  <br />
-                  <Text type="secondary" style={{ color: '#ffffff80' }}>
-                    {dayjs(article.createdAt).format('MMM D, YYYY')}
-                  </Text>
-                </div>
-              ))}
+              {isLoading
+                ? Array(5)
+                    .fill(null)
+                    .map((_, index) => (
+                      <div
+                        key={`skeleton-${index}`}
+                        className="animate-pulse p-2 border-b border-gray-700"
+                      >
+                        <div className="h-6 bg-gray-600 rounded w-3/4 mb-2"></div>
+                        <div className="h-4 bg-gray-600 rounded w-1/4"></div>
+                      </div>
+                    ))
+                : articles?.map(article => (
+                    <div
+                      key={article.id}
+                      style={{
+                        cursor: 'pointer',
+                        padding: '8px',
+                        backgroundColor:
+                          selectedArticle === article.id
+                            ? '#ffffff10'
+                            : 'transparent',
+                        color: '#ffffff',
+                      }}
+                      onClick={() => {
+                        handleSelectArticle(article)
+                      }}
+                    >
+                      <Text
+                        strong
+                        style={{ color: '#ffffff', fontSize: '1.2rem' }}
+                      >
+                        {article.title.slice(0, 50)}
+                      </Text>
+                      <br />
+                      <Text type="secondary" style={{ color: '#ffffff80' }}>
+                        {dayjs(article.createdAt).format('MMM D, YYYY')}
+                      </Text>
+                    </div>
+                  ))}
               {articles?.length === 0 && (
                 <div className="flex flex-col justify-center items-center gap-4 h-full mt-6">
                   <div className="flex justify-center items-center">
@@ -446,21 +465,22 @@ export default function ArticleWritingPage() {
                 </Space>
               }
             >
-              <div
-                className="quill-editor"
-                style={{
-                  pointerEvents:
-                    !selectedArticle || isGenerating ? 'none' : 'auto',
-                }}
-              >
-                <ReactQuill
-                  theme="snow"
-                  value={content}
-                  onChange={setContent}
-                  modules={quillModules}
-                  formats={quillFormats}
-                  style={{ height: 'auto' }}
-                />
+              <div className="quill-editor">
+                {isLoading ? (
+                  <div className="animate-pulse">
+                    <div className="h-10 bg-gray-600 rounded-t w-full"></div>
+                    <div className="h-[400px] bg-gray-700 rounded-b w-full"></div>
+                  </div>
+                ) : (
+                  <ReactQuill
+                    theme="snow"
+                    value={content}
+                    onChange={setContent}
+                    modules={quillModules}
+                    formats={quillFormats}
+                    style={{ height: 'auto' }}
+                  />
+                )}
               </div>
             </Card>
           </div>
