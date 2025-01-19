@@ -30,7 +30,7 @@ export default function ImageGenerationPage() {
   const [theme, setTheme] = useState<string>('modern')
   const [generating, setGenerating] = useState(false)
   const [splashVisible, setSplashVisible] = useState(false)
-  const [timer, setTimer] = useState(50)
+  const [timer, setTimer] = useState(20)
   const [zoomedImages, setZoomedImages] = useState<{ [key: string]: boolean }>(
     {},
   )
