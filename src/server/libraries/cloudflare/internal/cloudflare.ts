@@ -1,6 +1,7 @@
 import { ReadStream } from 'fs'
 import { z, ZodType } from 'zod'
 import { AiGenerateTextOptions } from '../'
+import { UploadFileType, UploadService } from '../../upload'
 
 export class Cloudflare {
   private apiKey: string
@@ -111,11 +112,16 @@ export class Cloudflare {
     // Get the image data as an ArrayBuffer
     const imageBuffer = await response.arrayBuffer()
 
-    // Convert to base64
-    const base64Image = Buffer.from(imageBuffer).toString('base64')
+    // Create a file object for upload
+    const file: UploadFileType = {
+      name: `ai-generated-${Date.now()}.png`,
+      mimetype: 'image/png',
+      buffer: Buffer.from(imageBuffer),
+    }
 
-    // Return as a data URL that can be used in an <img> src
-    return `data:image/png;base64,${base64Image}`
+    // Upload to Cloudinary through the upload service
+    const [uploadResult] = await UploadService.uploadPublic(file)
+    return uploadResult.url
   }
 
   // Note: Cloudflare currently doesn't support audio transcription/generation

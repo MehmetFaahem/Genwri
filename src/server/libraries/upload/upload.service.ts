@@ -1,4 +1,5 @@
 import { UploadProviderAws } from './internal/providers/aws/upload.provider.aws'
+import { UploadProviderCloudinary } from './internal/providers/cloudinary/upload.provider.cloudinary'
 import { UploadProviderLocal } from './internal/providers/local/upload.provider.local'
 import { UploadProvider } from './upload.provider'
 import { UploadFileType } from './upload.type'
@@ -21,10 +22,21 @@ export class Service {
 
   private async createInstance(): Promise<UploadProvider> {
     try {
+      console.log(`Trying using Cloudinary...`)
+
+      const instance = new UploadProviderCloudinary()
+      await instance.initialise()
+
+      return instance
+    } catch (error) {
+      console.warn(`Could not use Cloudinary: ${error.message}`)
+    }
+
+    // Fallback to AWS if Cloudinary fails
+    try {
       console.log(`Trying using AWS...`)
 
       const instance = new UploadProviderAws()
-
       await instance.initialise()
 
       return instance
@@ -38,7 +50,6 @@ export class Service {
 
     try {
       const instance = new UploadProviderLocal()
-
       await instance.initialise()
 
       return instance

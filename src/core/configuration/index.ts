@@ -33,9 +33,16 @@ const getAuthenticationSecret = () => {
   return secret
 }
 
+const getCloudinaryConfig = () => ({
+  apiKey: process.env.CLOUDINARY_API_KEY,
+  apiSecret: process.env.CLOUDINARY_API_SECRET,
+  cloudName: 'devvizeuo',
+})
+
 export const Configuration = {
   isDevelopment,
   isProduction,
   getBaseUrl,
   getAuthenticationSecret,
+  getCloudinaryConfig,
 }
