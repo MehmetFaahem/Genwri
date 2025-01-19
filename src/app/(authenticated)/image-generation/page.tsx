@@ -220,7 +220,7 @@ export default function ImageGenerationPage() {
               {images?.map((image: ImageType) => (
                 <div
                   key={image.id}
-                  className="cursor-pointer p-4 text-white rounded-lg border border-gray-600 bg-gray-700/50 h-[330px] w-full md:w-[calc(50%-16px)]"
+                  className="cursor-pointer p-4 text-white rounded-lg border border-gray-600 bg-gray-700/50 min-h-[330px] h-auto w-full md:w-[calc(50%-16px)]"
                 >
                   <ControlledZoom
                     isZoomed={zoomedImages[image.id] || false}
@@ -254,39 +254,35 @@ export default function ImageGenerationPage() {
                       />
                     </div>
                   </ControlledZoom>
-                  <p
-                    style={{
-                      color: '#ffffff',
-                      marginTop: '10px',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() =>
-                      setSelectedImage({
-                        prompt: image.prompt,
-                        url: image.imageUrl,
-                      })
-                    }
-                  >
-                    Click on me to see the prompt
-                  </p>
-                  <br />
-                  {/* <p
-                    style={{
-                      color: '#ffffff80',
-                    }}
-                  >
+                  <p className="mt-2">{image.prompt.slice(0, 50)}...</p>
+
+                  <p className=" text-gray-400">
                     {image.style && `Style: ${image.style}`}
-                    {image.theme && `Theme: ${image.theme}`}
-                  </p> */}
-                  <button
-                    key="download"
-                    onClick={() => downloadImage(image.imageUrl)}
-                    className="bg-transparent text-white border border-gray-600 rounded-lg px-4 py-2 -mt-2"
-                  >
-                    <span className="flex items-center gap-2">
-                      <DownloadOutlined /> Download
+                    <span className="text-gray-400 ml-2">
+                      {image.theme && `Theme: ${image.theme}`}
                     </span>
-                  </button>
+                  </p>
+                  <div className="flex justify-between items-center mt-5">
+                    <button
+                      key="download"
+                      onClick={() => downloadImage(image.imageUrl)}
+                      className="bg-transparent text-white border border-gray-600 rounded-lg px-4 py-2 -mt-2"
+                    >
+                      <span className="flex items-center gap-2">
+                        <DownloadOutlined /> Download
+                      </span>
+                    </button>
+                    <button
+                      onClick={() =>
+                        setSelectedImage({
+                          prompt: image.prompt,
+                          url: image.imageUrl,
+                        })
+                      }
+                    >
+                      <EyeOutlined /> View Prompt
+                    </button>
+                  </div>
                 </div>
               ))}
               {images?.length === 0 && (
@@ -371,7 +367,7 @@ export default function ImageGenerationPage() {
                         </p>
                       </div>
                       <button
-                        className="fixed top-3 right-2 bg-transparent backdrop-blur-xl text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                        className="fixed top-3 right-2 bg-transparent text-white px-6 py-2 rounded-lg hover:backdrop-blur-lg transition-colors"
                         onClick={() => setSelectedImage(null)}
                       >
                         <svg
