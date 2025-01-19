@@ -10,7 +10,7 @@ Geno.AI is a powerful content creation platform that leverages artificial intell
 - PostgreSQL 14.x or higher
 - OpenAI API key or Cloudflare Workers API key
 - Resend API key (for email)
-- AWS S3 bucket (for image storage)
+- Cloudinary API key and secret (for image storage)
 
 ## Features
 
@@ -52,6 +52,10 @@ Geno.AI is a powerful content creation platform that leverages artificial intell
    AWS_SECRET_ACCESS_KEY="your-aws-secret"
    AWS_REGION="your-region"
    AWS_BUCKET_NAME="your-bucket"
+
+   # Cloudinary
+   SERVER_CLOUDINARY_API_KEY=your-cloudinary-api-key
+   SERVER_CLOUDINARY_API_SECRET=your-cloudinary-api-secret
 
    ```
 
