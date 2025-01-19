@@ -34,6 +34,11 @@ export default function ImageGenerationPage() {
   const [zoomedImages, setZoomedImages] = useState<{ [key: string]: boolean }>(
     {},
   )
+  const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<{
+    prompt: string
+    url: string
+  } | null>(null)
 
   const handleZoomChange = useCallback(
     (shouldZoom: boolean, imageId: string) => {
@@ -93,7 +98,7 @@ export default function ImageGenerationPage() {
           if (prev === 1) {
             clearInterval(countdown)
             setSplashVisible(false)
-            return 50
+            return 20
           }
           return prev - 1
         })
@@ -253,10 +258,16 @@ export default function ImageGenerationPage() {
                     style={{
                       color: '#ffffff',
                       marginTop: '10px',
+                      cursor: 'pointer',
                     }}
+                    onClick={() =>
+                      setSelectedImage({
+                        prompt: image.prompt,
+                        url: image.imageUrl,
+                      })
+                    }
                   >
-                    {image.prompt.slice(0, 50)}
-                    {image.prompt.length > 50 ? '...' : ''}
+                    Click on me to see the prompt
                   </p>
                   <br />
                   {/* <p
@@ -296,6 +307,94 @@ export default function ImageGenerationPage() {
                 </div>
               )}
             </div>
+
+            {/* Add modal for full prompt */}
+            {selectedImage && (
+              <div
+                className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+                onClick={() => setSelectedImage(null)}
+              >
+                <div
+                  className="bg-transparent backdrop-blur-lg border border-gray-600 p-6 rounded-lg max-w-7xl w-full max-h-[90vh] overflow-y-auto"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <div className="flex flex-col lg:flex-row gap-6 justify-center items-center">
+                    {/* Left side - Image with controls */}
+                    <div className="lg:w-2/3 relative">
+                      <div className="relative group">
+                        <ControlledZoom
+                          isZoomed={zoomedImages['modal-image'] || false}
+                          onZoomChange={shouldZoom =>
+                            handleZoomChange(shouldZoom, 'modal-image')
+                          }
+                          zoomMargin={40}
+                        >
+                          <div className="relative">
+                            <img
+                              src={selectedImage.url}
+                              alt={selectedImage.prompt}
+                              className="w-full rounded-lg object-cover max-h-[70vh]"
+                            />
+                            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={() =>
+                                  handleZoomChange(true, 'modal-image')
+                                }
+                                className="p-2 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-colors"
+                              >
+                                <EyeOutlined
+                                  style={{ color: 'white', fontSize: '20px' }}
+                                />
+                              </button>
+                              <button
+                                onClick={() => downloadImage(selectedImage.url)}
+                                className="p-2 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-colors"
+                              >
+                                <DownloadOutlined
+                                  style={{ color: 'white', fontSize: '20px' }}
+                                />
+                              </button>
+                            </div>
+                          </div>
+                        </ControlledZoom>
+                      </div>
+                    </div>
+
+                    {/* Right side - Prompt and close button */}
+                    <div className="lg:w-1/3 flex flex-col relative">
+                      <h3 className="text-white text-xl mb-4 font-bold">
+                        Full Prompt:
+                      </h3>
+                      <div className="flex-grow overflow-y-auto">
+                        <p className="text-white text-lg">
+                          {selectedImage.prompt}
+                        </p>
+                      </div>
+                      <button
+                        className="fixed top-3 right-2 bg-transparent backdrop-blur-xl text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                        onClick={() => setSelectedImage(null)}
+                      >
+                        <svg
+                          className="w-6 h-6 text-white"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </PageLayout>
